@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Notes - CodeNotes</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0033A0',
+                        secondary: '#FFD100',
+                        codeblue: '#1E40AF',
+                        codepurple: '#7E22CE',
+                        codegreen: '#166534'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="/static/css/prism.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #0033A0;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        
+        body.dark {
+            background-color: #1a1a2e;
+            color: #f0f0f0;
+        }
+        body.dark .bg-white {
+            background-color: #16213e;
+        }
+        body.dark .bg-gray-50 {
+            background-color: #1a1a2e;
+        }
+        body.dark .text-gray-800 {
+            color: #f0f0f0;
+        }
+        body.dark .text-gray-700 {
+            color: #e0e0e0;
+        }
+        body.dark .text-gray-600 {
+            color: #d0d0d0;
+        }
+        body.dark .border-gray-200 {
+            border-color: #2c3e50;
+        }
+        body.dark .hover\:bg-gray-100:hover {
+            background-color: #2c3e50;
+        }
+    </style>
+    
+<style>
+    .toc-link.active {
+        color: #0033A0;
+        font-weight: 500;
+    }
+    .toc-container {
+        position: sticky;
+        top: 100px;
+    }
+</style>
+
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Top Navigation -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="HTML_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <form action="Search_Webpage.html" method="get" class="hidden md:block">
+                        <input type="text" name="q" placeholder="Search notes..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2 dark:text-gray-400">Dark mode</span>
+                    <label class="custom-switch">
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full p-2 dark:text-gray-300 dark:hover:bg-darkborder">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-menu-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-darkborder dark:bg-darkcard">
+            <div class="px-4 py-2 space-y-2">
+                <a href="HTML_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+                <form action="Search_Webpage.html" method="get" class="mt-3">
+                    <input type="text" name="q" placeholder="Search notes..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                </form>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        
+<!-- Language Header -->
+<div class="bg-blue-500 text-white rounded-lg p-6 mb-8">
+    <div class="flex items-center">
+        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="ri-css3-line text-2xl text-blue-500"></i>
+        </div>
+        <div>
+            <h1 class="text-2xl font-bold">CSS Notes</h1>
+            <p>Cascading Style Sheets - Style your web pages</p>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col lg:flex-row gap-8">
+    <!-- Sidebar - Table of Contents -->
+    <div class="lg:w-1/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-4 toc-container">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Table of Contents</h2>
+            <ul class="space-y-3">
+                
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="lg:w-3/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Introduction to CSS</h2>
+            <p class="text-gray-600 mb-6">CSS (Cascading Style Sheets) is a style sheet language used for describing the presentation of a document written in HTML. CSS describes how elements should be rendered on screen, on paper, in speech, or on other media.</p>
+            
+            
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex justify-between">
+                    <div>
+                        <a href="/html" class="inline-flex items-center text-primary hover:underline">
+                            <div class="w-5 h-5 mr-1 flex items-center justify-center">
+                                <i class="ri-arrow-left-line"></i>
+                            </div>
+                            <span>Previous: HTML Notes</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/javascript" class="inline-flex items-center text-primary hover:underline">
+                            <span>Next: JavaScript Notes</span>
+                            <div class="w-5 h-5 ml-1 flex items-center justify-center">
+                                <i class="ri-arrow-right-line"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Resources -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 mt-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Additional CSS Resources</h3>
+            <ul class="space-y-2">
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" class="text-primary hover:underline">MDN Web Docs - CSS</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://www.w3schools.com/css/" target="_blank" class="text-primary hover:underline">W3Schools CSS Tutorial</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://cssreference.io/" target="_blank" class="text-primary hover:underline">CSS Reference</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://jigsaw.w3.org/css-validator/" target="_blank" class="text-primary hover:underline">W3C CSS Validation Service</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                    <p class="text-gray-600 max-w-md dark:text-gray-300">Helping beginners learn programming with clear, concise notes and examples.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Languages</h2>
+                        <ul class="space-y-2">
+                            <li><a href="HTML_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">HTML</a></li>
+                            <li><a href="CSS_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">CSS</a></li>
+                            <li><a href="JavaScript_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">JavaScript</a></li>
+                            <li><a href="Java_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Java</a></li>
+                            <li><a href="Python_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Python</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Resources</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Tutorials</a></li>
+                            <li><a href="Search_Webpage.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Search</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Links</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">About Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Contact</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-darkborder">
+                <p class="text-gray-500 text-center dark:text-gray-400">&copy; 2025 CodeNotes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="/static/js/prism.js"></script>
+    <script src="/static/js/main.js"></script>
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Highlight active TOC item based on scroll position
+        const sections = document.querySelectorAll('[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        
+        function highlightToc() {
+            let scrollPosition = window.scrollY;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if(scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if(link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', highlightToc);
+        
+        // Smooth scroll for TOC links
+        tocLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- Dark mode toggle functionality and mobile menu ---
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark');
+            if (darkModeToggle) darkModeToggle.checked = true;
+        }
+
+        // Toggle dark mode
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        }
+
+        // Mobile menu toggle
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

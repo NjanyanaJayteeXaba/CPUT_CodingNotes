@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Notes - CodeNotes</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0033A0',
+                        secondary: '#FFD100',
+                        codeblue: '#1E40AF',
+                        codepurple: '#7E22CE',
+                        codegreen: '#166534'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="/static/css/prism.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #0033A0;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        /* --- Use .dark for dark mode --- */
+        body.dark {
+            background-color: #1a1a2e;
+            color: #f0f0f0;
+        }
+        body.dark .bg-white {
+            background-color: #16213e;
+        }
+        body.dark .bg-gray-50 {
+            background-color: #1a1a2e;
+        }
+        body.dark .text-gray-800 {
+            color: #f0f0f0;
+        }
+        body.dark .text-gray-700 {
+            color: #e0e0e0;
+        }
+        body.dark .text-gray-600 {
+            color: #d0d0d0;
+        }
+        body.dark .border-gray-200 {
+            border-color: #2c3e50;
+        }
+        body.dark .hover\:bg-gray-100:hover {
+            background-color: #2c3e50;
+        }
+    </style>
+    
+<style>
+    .toc-link.active {
+        color: #306998;
+        font-weight: 500;
+    }
+    .toc-container {
+        position: sticky;
+        top: 100px;
+    }
+</style>
+
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Top Navigation -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="HTML_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <form action="Search_Webpage.html" method="get" class="hidden md:block">
+                        <input type="text" name="q" placeholder="Search notes..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2 dark:text-gray-400">Dark mode</span>
+                    <label class="custom-switch">
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full p-2 dark:text-gray-300 dark:hover:bg-darkborder">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-menu-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-darkborder dark:bg-darkcard">
+            <div class="px-4 py-2 space-y-2">
+                <a href="HTML_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+                <form action="Search_Webpage.html" method="get" class="mt-3">
+                    <input type="text" name="q" placeholder="Search notes..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                </form>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        
+<!-- Language Header -->
+<div class="bg-green-600 text-white rounded-lg p-6 mb-8">
+    <div class="flex items-center">
+        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="ri-code-s-slash-line text-2xl text-green-600"></i>
+        </div>
+        <div>
+            <h1 class="text-2xl font-bold">Python Notes</h1>
+            <p>A versatile and beginner-friendly programming language</p>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col lg:flex-row gap-8">
+    <!-- Sidebar - Table of Contents -->
+    <div class="lg:w-1/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-4 toc-container">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Table of Contents</h2>
+            <ul class="space-y-3">
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Python Basics</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#introduction" class="toc-link text-sm text-gray-600 hover:text-primary">What is Python?</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#setup" class="toc-link text-sm text-gray-600 hover:text-primary">Setting Up Python</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#syntax" class="toc-link text-sm text-gray-600 hover:text-primary">Basic Syntax</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#variables" class="toc-link text-sm text-gray-600 hover:text-primary">Variables and Data Types</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Control Flow</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#conditional-statements" class="toc-link text-sm text-gray-600 hover:text-primary">Conditional Statements</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#loops" class="toc-link text-sm text-gray-600 hover:text-primary">Loops</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Functions and Modules</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#functions" class="toc-link text-sm text-gray-600 hover:text-primary">Functions</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#modules" class="toc-link text-sm text-gray-600 hover:text-primary">Modules and Packages</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="lg:w-3/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Introduction to Python</h2>
+            <p class="text-gray-600 mb-6">Python is a high-level, interpreted programming language known for its simplicity and readability. It's often recommended as a first programming language for beginners due to its clean syntax and powerful libraries.</p>
+            
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Python Basics</h3>
+                
+                
+                <div id="introduction" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">What is Python?</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Python is a high-level, interpreted programming language created by Guido van Rossum and first released in 1991. It's known for its readability, simplicity, and versatility, making it an excellent choice for beginners and experienced developers alike.</p><p>Key features of Python include:</p><ul><li><strong>Easy to Learn and Read</strong>: Python uses clean, readable syntax with natural language elements</li><li><strong>Interpreted</strong>: Code is executed line by line, making debugging easier</li><li><strong>Dynamically Typed</strong>: No need to declare variable types</li><li><strong>Versatile</strong>: Used for web development, data analysis, AI, scientific computing, and more</li><li><strong>Large Standard Library</strong>: Comes with libraries for many common programming tasks</li><li><strong>Strong Community</strong>: Active development and extensive third-party packages</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-python rounded-b-md mt-0"><code># Your first Python program
+print(&#34;Hello, World!&#34;)
+
+# Simple calculation
+result = 5 + 10
+print(f&#34;5 + 10 = {result}&#34;)
+
+# Working with strings
+name = &#34;Python&#34;
+print(f&#34;I&#39;m learning {name} programming!&#34;)</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="setup" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Setting Up Python</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>To start programming with Python, you need to set it up on your computer. Here's how to do it:</p><h4>Step 1: Download Python</h4><p>Visit the <a href='https://www.python.org/downloads/' target='_blank'>official Python website</a> and download the latest version for your operating system.</p><h4>Step 2: Install Python</h4><p>Run the installer and make sure to check the box that says "Add Python to PATH" during installation. This makes it easier to run Python from the command line.</p><h4>Step 3: Verify Installation</h4><p>Open a terminal or command prompt and type the following commands to verify your installation:</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-python rounded-b-md mt-0"><code># Check Python version
+python --version
+
+# Enter Python interactive mode
+python
+
+# In interactive mode, try a simple command
+&gt;&gt;&gt; print(&#34;Python is installed correctly!&#34;)
+&gt;&gt;&gt; exit()  # To exit interactive mode</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="syntax" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Basic Syntax</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Python has a clean, readable syntax that uses indentation (whitespace) to define code blocks instead of braces or keywords.</p><h4>Indentation</h4><p>Indentation (usually 4 spaces) is used to define code blocks in Python. Proper indentation is critical for the code to work correctly.</p><h4>Comments</h4><p>Comments in Python start with the # character and extend to the end of the line.</p><h4>Variables</h4><p>Variables in Python don't need explicit declaration or type definition. They're created when you first assign a value to them.</p><h4>Print Statement</h4><p>The <code>print()</code> function outputs values to the console.</p><h4>Input</h4><p>The <code>input()</code> function reads user input from the console.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-python rounded-b-md mt-0"><code># This is a comment
+
+# Variables don&#39;t need type declarations
+name = &#34;John&#34;  # String
+age = 30      # Integer
+height = 1.75  # Float
+is_student = True  # Boolean
+
+# Indentation defines code blocks
+if age &gt;= 18:
+    print(&#34;You are an adult.&#34;)  # Indented with 4 spaces
+    if height &gt; 1.7:
+        print(&#34;You are tall.&#34;)  # Indented with 8 spaces
+else:
+    print(&#34;You are a minor.&#34;)  # Same indentation level as the if block
+
+# Multiple line statements can be written using \ or parentheses
+total = 1 + 2 + 3 + \
+        4 + 5
+
+sum_of_numbers = (1 + 2 + 3 +
+                  4 + 5)
+
+# Getting user input
+user_name = input(&#34;Enter your name: &#34;)
+print(f&#34;Hello, {user_name}!&#34;)</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>You are an adult.
+You are tall.
+Hello, John!</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="variables" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Variables and Data Types</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Python has several built-in data types for storing different kinds of values. Variables can hold any type of data, and their type can change during program execution.</p><h4>Basic Data Types</h4><ul><li><strong>Numeric Types</strong>:<ul><li><code>int</code>: Integer numbers (e.g., 5, -17, 1000)</li><li><code>float</code>: Floating-point numbers (e.g., 3.14, -0.001, 2.0)</li><li><code>complex</code>: Complex numbers (e.g., 3+4j)</li></ul></li><li><strong>Boolean Type</strong>:<ul><li><code>bool</code>: Either <code>True</code> or <code>False</code></li></ul></li><li><strong>Sequence Types</strong>:<ul><li><code>str</code>: String of characters (e.g., "Hello", 'Python')</li><li><code>list</code>: Ordered, mutable collection (e.g., [1, 2, 3])</li><li><code>tuple</code>: Ordered, immutable collection (e.g., (1, 2, 3))</li></ul></li><li><strong>Mapping Type</strong>:<ul><li><code>dict</code>: Key-value pairs (e.g., {'name': 'John', 'age': 30})</li></ul></li><li><strong>Set Types</strong>:<ul><li><code>set</code>: Unordered collection of unique items (e.g., {1, 2, 3})</li><li><code>frozenset</code>: Immutable version of set</li></ul></li><li><strong>None Type</strong>:<ul><li><code>None</code>: Represents absence of value</li></ul></li></ul><h4>Type Conversion</h4><p>You can convert between types using functions like <code>int()</code>, <code>float()</code>, <code>str()</code>, etc.</p><h4>Checking Types</h4><p>Use the <code>type()</code> function to check the type of a variable.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-python rounded-b-md mt-0"><code># Numeric types
+int_num = 42
+float_num = 3.14
+complex_num = 2 + 3j
+
+# Boolean type
+is_python_fun = True
+
+# String type
+name = &#34;Python&#34;
+single_quotes = &#39;Also works&#39;
+multi_line = &#34;&#34;&#34;This is a
+multi-line string&#34;&#34;&#34;
+
+# List type (mutable)
+fruits = [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;]
+fruits[0] = &#34;orange&#34;  # Lists can be modified
+
+# Tuple type (immutable)
+coordinates = (10.0, 20.0)
+# coordinates[0] = 15.0  # This would cause an error
+
+# Dictionary type
+person = {
+    &#34;name&#34;: &#34;Alice&#34;,
+    &#34;age&#34;: 25,
+    &#34;is_student&#34;: True
+}
+
+# Set type
+unique_numbers = {1, 2, 3, 2, 1}  # Duplicates are automatically removed
+
+# None type
+result = None
+
+# Checking types
+print(f&#34;Type of int_num: {type(int_num)}&#34;)
+print(f&#34;Type of name: {type(name)}&#34;)
+print(f&#34;Type of fruits: {type(fruits)}&#34;)
+
+# Type conversion
+string_num = &#34;42&#34;
+converted_num = int(string_num)
+print(f&#34;converted_num: {converted_num}, type: {type(converted_num)}&#34;)
+
+float_to_int = int(3.99)  # Truncates decimal part
+print(f&#34;float_to_int: {float_to_int}&#34;)</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Type of int_num: &lt;class 'int'&gt;
+Type of name: &lt;class 'str'&gt;
+Type of fruits: &lt;class 'list'&gt;
+converted_num: 42, type: &lt;class 'int'&gt;
+float_to_int: 3</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Control Flow</h3>
+                
+                
+                <div id="conditional-statements" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Conditional Statements</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Conditional statements allow your program to make decisions based on specified conditions. Python provides several ways to implement conditional logic:</p><h4>if Statement</h4><p>The <code>if</code> statement executes a block of code if a specified condition is true.</p><h4>if-else Statement</h4><p>The <code>if-else</code> statement executes one block of code if a condition is true and another block if the condition is false.</p><h4>if-elif-else Statement</h4><p>The <code>if-elif-else</code> chain allows you to check multiple conditions in sequence.</p><h4>Ternary Operator</h4><p>Python's ternary operator provides a shorthand way to write simple if-else statements in a single line.</p><h4>Logical Operators</h4><p>Python uses the following logical operators:</p><ul><li><code>and</code>: True if both operands are true</li><li><code>or</code>: True if at least one operand is true</li><li><code>not</code>: True if the operand is false</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-python rounded-b-md mt-0"><code># if statement
+age = 20
+if age &gt;= 18:
+    print(&#34;You are an adult.&#34;)
+
+# if-else statement
+temperature = 15
+if temperature &gt; 25:
+    print(&#34;It&#39;s a warm day.&#34;)
+else:
+    print(&#34;It&#39;s not very warm today.&#34;)
+
+# if-elif-else statement
+score = 85
+if score &gt;= 90:
+    grade = &#34;A&#34;
+elif score &gt;= 80:
+    grade = &#34;B&#34;
+elif score &gt;= 70:
+    grade = &#34;C&#34;
+elif score &gt;= 60:
+    grade = &#34;D&#34;
+else:
+    grade = &#34;F&#34;
+print(f&#34;Grade: {grade}&#34;)
+
+# Nested if statements
+num = 15
+if num &gt; 0:
+    if num % 2 == 0:
+        print(f&#34;{num} is a positive even number.&#34;)
+    else:
+        print(f&#34;{num} is a positive odd number.&#34;)
+else:
+    print(f&#34;{num} is not a positive number.&#34;)
+
+# Ternary operator
+age = 20
+status = &#34;adult&#34; if age &gt;= 18 else &#34;minor&#34;
+print(f&#34;Status: {status}&#34;)
+
+# Logical operators
+has_passport = True
+has_ticket = True
+can_travel = has_passport and has_ticket
+print(f&#34;Can travel: {can_travel}&#34;)
+
+# Checking membership with &#39;in&#39;
+fruits = [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;]
+if &#34;banana&#34; in fruits:
+    print(&#34;Yes, banana is in the fruits list.&#34;)</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>You are an adult.
+It's not very warm today.
+Grade: B
+15 is a positive odd number.
+Status: adult
+Can travel: True
+Yes, banana is in the fruits list.</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="loops" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Loops</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Loops allow you to execute a block of code repeatedly. Python provides several ways to create loops:</p><h4>for Loop</h4><p>The <code>for</code> loop iterates over a sequence (list, tuple, string, etc.) or other iterable objects.</p><h4>while Loop</h4><p>The <code>while</code> loop repeats a block of code as long as a specified condition is true.</p><h4>Loop Control Statements</h4><ul><li><code>break</code>: Exits the loop prematurely</li><li><code>continue</code>: Skips the current iteration and moves to the next one</li><li><code>pass</code>: Does nothing; used as a placeholder</li></ul><h4>Else Clause in Loops</h4><p>Python allows an <code>else</code> clause with loops, which executes after the loop completes normally (not when terminated by a <code>break</code> statement).</p><h4>Comprehensions</h4><p>Python provides concise ways to create lists, dictionaries, and sets using comprehensions.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-python rounded-b-md mt-0"><code># for loop with a list
+print(&#34;For loop with a list:&#34;)
+fruits = [&#34;apple&#34;, &#34;banana&#34;, &#34;cherry&#34;]
+for fruit in fruits:
+    print(f&#34;Fruit: {fruit}&#34;)
+
+# for loop with range
+print(&#34;\nFor loop with range:&#34;)
+for i in range(5):  # 0 to 4
+    print(f&#34;Number: {i}&#34;)
+
+# for loop with range start, stop, step
+print(&#34;\nFor loop with range parameters:&#34;)
+for i in range(2, 10, 2):  # 2, 4, 6, 8
+    print(f&#34;Even number: {i}&#34;)
+
+# while loop
+print(&#34;\nWhile loop:&#34;)
+count = 0
+while count &lt; 5:
+    print(f&#34;Count: {count}&#34;)
+    count += 1
+
+# break statement
+print(&#34;\nUsing break:&#34;)
+for i in range(10):
+    if i == 5:
+        break
+    print(f&#34;Number before break: {i}&#34;)
+
+# continue statement
+print(&#34;\nUsing continue:&#34;)
+for i in range(10):
+    if i % 2 == 0:  # Skip even numbers
+        continue
+    print(f&#34;Odd number: {i}&#34;)
+
+# else clause with for loop
+print(&#34;\nFor loop with else:&#34;)
+for i in range(3):
+    print(f&#34;Number: {i}&#34;)
+else:
+    print(&#34;For loop completed successfully!&#34;)
+
+# List comprehension
+print(&#34;\nList comprehension:&#34;)
+squares = [x**2 for x in range(1, 6)]
+print(f&#34;Squares: {squares}&#34;)
+
+# Dictionary comprehension
+print(&#34;\nDictionary comprehension:&#34;)
+square_dict = {x: x**2 for x in range(1, 6)}
+print(f&#34;Square dictionary: {square_dict}&#34;)</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>For loop with a list:
+Fruit: apple
+Fruit: banana
+Fruit: cherry
+
+For loop with range:
+Number: 0
+Number: 1
+Number: 2
+Number: 3
+Number: 4
+
+For loop with range parameters:
+Even number: 2
+Even number: 4
+Even number: 6
+Even number: 8
+
+While loop:
+Count: 0
+Count: 1
+Count: 2
+Count: 3
+Count: 4
+
+Using break:
+Number before break: 0
+Number before break: 1
+Number before break: 2
+Number before break: 3
+Number before break: 4
+
+Using continue:
+Odd number: 1
+Odd number: 3
+Odd number: 5
+Odd number: 7
+Odd number: 9
+
+For loop with else:
+Number: 0
+Number: 1
+Number: 2
+For loop completed successfully!
+
+List comprehension:
+Squares: [1, 4, 9, 16, 25]
+
+Dictionary comprehension:
+Square dictionary: {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Functions and Modules</h3>
+                
+                
+                <div id="functions" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Functions</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Functions are blocks of reusable code designed to perform a specific task. They help organize code, make it more readable, and avoid repetition.</p><h4>Defining Functions</h4><p>You define functions in Python using the <code>def</code> keyword, followed by the function name and parentheses.</p><h4>Parameters and Arguments</h4><p>Functions can accept inputs (parameters) and return outputs:</p><ul><li><strong>Parameters</strong>: Variables listed in the function definition</li><li><strong>Arguments</strong>: Values passed to the function when it's called</li></ul><h4>Return Values</h4><p>Functions can return values using the <code>return</code> statement. A function can return multiple values as a tuple.</p><h4>Default Parameters</h4><p>You can provide default values for parameters, which are used if no argument is provided.</p><h4>Keyword Arguments</h4><p>You can specify arguments by the parameter name, allowing you to skip some arguments or change their order.</p><h4>Variable-Length Arguments</h4><p>Python supports functions with a variable number of arguments:</p><ul><li><code>*args</code>: For variable positional arguments (as a tuple)</li><li><code>**kwargs</code>: For variable keyword arguments (as a dictionary)</li></ul><h4>Lambda Functions</h4><p>Lambda functions are small, anonymous functions defined with the <code>lambda</code> keyword.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-python rounded-b-md mt-0"><code># Defining a simple function
+def greet():
+    print(&#34;Hello, World!&#34;)
+
+# Function with parameters
+def greet_person(name):
+    print(f&#34;Hello, {name}!&#34;)
+
+# Function with return value
+def add(a, b):
+    return a + b
+
+# Function with default parameter
+def greet_with_message(name, message=&#34;How are you?&#34;):
+    print(f&#34;Hello, {name}! {message}&#34;)
+
+# Function returning multiple values
+def get_dimensions():
+    return 1920, 1080  # Returns a tuple
+
+# Using *args for variable positional arguments
+def sum_all(*numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    return total
+
+# Using **kwargs for variable keyword arguments
+def print_info(**kwargs):
+    for key, value in kwargs.items():
+        print(f&#34;{key}: {value}&#34;)
+
+# Lambda function
+square = lambda x: x ** 2
+
+# Calling the functions
+greet()
+greet_person(&#34;Alice&#34;)
+result = add(5, 3)
+print(f&#34;5 + 3 = {result}&#34;)
+greet_with_message(&#34;Bob&#34;)
+greet_with_message(&#34;Charlie&#34;, &#34;Nice to meet you!&#34;)
+width, height = get_dimensions()
+print(f&#34;Resolution: {width}x{height}&#34;)
+print(f&#34;Sum of numbers: {sum_all(1, 2, 3, 4, 5)}&#34;)
+print_info(name=&#34;David&#34;, age=30, city=&#34;New York&#34;)
+print(f&#34;Square of 5: {square(5)}&#34;)</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Hello, World!
+Hello, Alice!
+5 + 3 = 8
+Hello, Bob! How are you?
+Hello, Charlie! Nice to meet you!
+Resolution: 1920x1080
+Sum of numbers: 15
+name: David
+age: 30
+city: New York
+Square of 5: 25</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="modules" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Modules and Packages</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Modules and packages help organize and reuse code across different Python programs.</p><h4>Modules</h4><p>A module is a file containing Python definitions and statements. The file name is the module name with the suffix <code>.py</code>.</p><h4>Importing Modules</h4><p>You can import modules using the <code>import</code> statement:</p><ul><li><code>import module_name</code>: Imports the entire module</li><li><code>from module_name import function_name</code>: Imports a specific function</li><li><code>from module_name import *</code>: Imports all functions (not recommended)</li><li><code>import module_name as alias</code>: Imports with an alias</li></ul><h4>Standard Library</h4><p>Python comes with a rich standard library of modules for common tasks:</p><ul><li><code>math</code>: Mathematical functions</li><li><code>random</code>: Random number generation</li><li><code>datetime</code>: Date and time handling</li><li><code>os</code>: Operating system interfaces</li><li><code>sys</code>: System-specific parameters and functions</li><li>And many more...</li></ul><h4>Packages</h4><p>A package is a way of organizing related modules in a directory. A directory becomes a package when it contains a special file called <code>__init__.py</code>.</p><h4>Creating Your Own Modules</h4><p>You can create your own modules by writing functions in a <code>.py</code> file, which can then be imported in other scripts.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-python rounded-b-md mt-0"><code># Importing the entire module
+import math
+print(f&#34;Pi: {math.pi}&#34;)
+print(f&#34;Square root of 16: {math.sqrt(16)}&#34;)
+
+# Importing specific functions
+from random import randint, choice
+print(f&#34;Random number between 1 and 10: {randint(1, 10)}&#34;)
+print(f&#34;Random choice from list: {choice([&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;])}&#34;)
+
+# Importing with an alias
+import datetime as dt
+now = dt.datetime.now()
+print(f&#34;Current date and time: {now}&#34;)
+
+# Using the os module
+import os
+print(f&#34;Current working directory: {os.getcwd()}&#34;)
+
+# Using the sys module
+import sys
+print(f&#34;Python version: {sys.version}&#34;)
+
+# Example of creating and using your own module
+&#39;&#39;&#39;
+File: mymodule.py
+
+def say_hello(name):
+    return f&#34;Hello, {name}!&#34;
+
+def add(a, b):
+    return a + b
+&#39;&#39;&#39;
+
+# Then in another file:
+&#39;&#39;&#39;
+import mymodule
+
+print(mymodule.say_hello(&#34;Alice&#34;))
+print(f&#34;2 + 3 = {mymodule.add(2, 3)}&#34;)
+&#39;&#39;&#39;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Pi: 3.141592653589793
+Square root of 16: 4.0
+Random number between 1 and 10: 7
+Random choice from list: banana
+Current date and time: 2025-05-23 10:18:44.651983
+Current working directory: /home/runner/workspace
+Python version: 3.11.5 (main, Feb  3 2024, 23:30:50) [GCC 12.3.0]</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex justify-between">
+                    <div>
+                        <a href="/java" class="inline-flex items-center text-primary hover:underline">
+                            <div class="w-5 h-5 mr-1 flex items-center justify-center">
+                                <i class="ri-arrow-left-line"></i>
+                            </div>
+                            <span>Previous: Java Notes</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/" class="inline-flex items-center text-primary hover:underline">
+                            <span>Back to Home</span>
+                            <div class="w-5 h-5 ml-1 flex items-center justify-center">
+                                <i class="ri-home-line"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Resources -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 mt-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Additional Python Resources</h3>
+            <ul class="space-y-2">
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://www.python.org/doc/" target="_blank" class="text-primary hover:underline">Official Python Documentation</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://www.w3schools.com/python/" target="_blank" class="text-primary hover:underline">W3Schools Python Tutorial</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://realpython.com/" target="_blank" class="text-primary hover:underline">Real Python Tutorials</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://www.learnpython.org/" target="_blank" class="text-primary hover:underline">Learn Python Interactive Tutorial</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                    <p class="text-gray-600 max-w-md dark:text-gray-300">Helping beginners learn programming with clear, concise notes and examples.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Languages</h2>
+                        <ul class="space-y-2">
+                            <li><a href="HTML_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">HTML</a></li>
+                            <li><a href="CSS_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">CSS</a></li>
+                            <li><a href="JavaScript_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">JavaScript</a></li>
+                            <li><a href="Java_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Java</a></li>
+                            <li><a href="Python_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Python</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Resources</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Tutorials</a></li>
+                            <li><a href="Search_Webpage.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Search</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Links</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">About Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Contact</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-darkborder">
+                <p class="text-gray-500 text-center dark:text-gray-400">&copy; 2025 CodeNotes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="/static/js/prism.js"></script>
+    <script src="/static/js/main.js"></script>
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Highlight active TOC item based on scroll position
+        const sections = document.querySelectorAll('[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        
+        function highlightToc() {
+            let scrollPosition = window.scrollY;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if(scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if(link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', highlightToc);
+        
+        // Smooth scroll for TOC links
+        tocLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- Dark mode toggle functionality and mobile menu ---
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark');
+            if (darkModeToggle) darkModeToggle.checked = true;
+        }
+
+        // Toggle dark mode
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        }
+
+        // Mobile menu toggle
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

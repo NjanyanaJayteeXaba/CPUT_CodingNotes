@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Notes - CodeNotes</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0033A0',
+                        secondary: '#FFD100',
+                        codeblue: '#1E40AF',
+                        codepurple: '#7E22CE',
+                        codegreen: '#166534'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="/static/css/prism.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #0033A0;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        /* --- Use .dark for dark mode --- */
+        body.dark {
+            background-color: #1a1a2e;
+            color: #f0f0f0;
+        }
+        body.dark .bg-white {
+            background-color: #16213e;
+        }
+        body.dark .bg-gray-50 {
+            background-color: #1a1a2e;
+        }
+        body.dark .text-gray-800 {
+            color: #f0f0f0;
+        }
+        body.dark .text-gray-700 {
+            color: #e0e0e0;
+        }
+        body.dark .text-gray-600 {
+            color: #d0d0d0;
+        }
+        body.dark .border-gray-200 {
+            border-color: #2c3e50;
+        }
+        body.dark .hover\:bg-gray-100:hover {
+            background-color: #2c3e50;
+        }
+    </style>
+    <style>
+        .toc-link.active {
+            color: #0033A0;
+            font-weight: 500;
+        }
+        .toc-container {
+            position: sticky;
+            top: 100px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Top Navigation -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="HTML_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <form action="Search_Webpage.html" method="get" class="hidden md:block">
+                        <input type="text" name="q" placeholder="Search notes..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2 dark:text-gray-400">Dark mode</span>
+                    <label class="custom-switch">
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full p-2 dark:text-gray-300 dark:hover:bg-darkborder">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-menu-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-darkborder dark:bg-darkcard">
+            <div class="px-4 py-2 space-y-2">
+                <a href="HTML_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+                <form action="Search_Webpage.html" method="get" class="mt-3">
+                    <input type="text" name="q" placeholder="Search notes..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                </form>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        
+<!-- Language Header -->
+<div class="bg-yellow-500 text-white rounded-lg p-6 mb-8">
+    <div class="flex items-center">
+        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="ri-javascript-line text-2xl text-yellow-500"></i>
+        </div>
+        <div>
+            <h1 class="text-2xl font-bold">JavaScript Notes</h1>
+            <p>The programming language of the web</p>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col lg:flex-row gap-8">
+    <!-- Sidebar - Table of Contents -->
+    <div class="lg:w-1/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-4 toc-container">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Table of Contents</h2>
+            <ul class="space-y-3">
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">JavaScript Basics</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#introduction" class="toc-link text-sm text-gray-600 hover:text-primary">What is JavaScript?</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#variables" class="toc-link text-sm text-gray-600 hover:text-primary">Variables and Data Types</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#operators" class="toc-link text-sm text-gray-600 hover:text-primary">Operators</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#control-flow" class="toc-link text-sm text-gray-600 hover:text-primary">Control Flow</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Functions and Objects</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#functions" class="toc-link text-sm text-gray-600 hover:text-primary">Functions</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#objects" class="toc-link text-sm text-gray-600 hover:text-primary">Objects</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#arrays" class="toc-link text-sm text-gray-600 hover:text-primary">Arrays</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">DOM Manipulation</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#dom" class="toc-link text-sm text-gray-600 hover:text-primary">What is the DOM?</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#selecting-elements" class="toc-link text-sm text-gray-600 hover:text-primary">Selecting DOM Elements</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#modifying-dom" class="toc-link text-sm text-gray-600 hover:text-primary">Modifying the DOM</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#events" class="toc-link text-sm text-gray-600 hover:text-primary">Events</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Asynchronous JavaScript</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#async-intro" class="toc-link text-sm text-gray-600 hover:text-primary">Introduction to Asynchronous JS</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#callbacks" class="toc-link text-sm text-gray-600 hover:text-primary">Callbacks</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#promises" class="toc-link text-sm text-gray-600 hover:text-primary">Promises</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#async-await" class="toc-link text-sm text-gray-600 hover:text-primary">Async/Await</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="lg:w-3/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Introduction to JavaScript</h2>
+            <p class="text-gray-600 mb-6">JavaScript is a programming language that enables interactive web pages and is an essential part of web applications. It's what allows websites to respond to user interactions, update content dynamically, and create a more engaging user experience.</p>
+            
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">JavaScript Basics</h3>
+                
+                
+                <div id="introduction" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">What is JavaScript?</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>JavaScript is a high-level, interpreted programming language primarily used for creating interactive effects within web browsers. It's one of the core technologies of the World Wide Web, alongside HTML and CSS.</p><p>JavaScript allows you to:</p><ul><li>Add interactivity to web pages</li><li>Create dynamic content updates</li><li>Control multimedia</li><li>Animate images</li><li>Build web and mobile applications</li></ul><p>Despite its name, JavaScript is not related to Java. It was originally created in 10 days by Brendan Eich while he was working at Netscape in 1995.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Basic JavaScript example
+console.log(&#39;Hello, World!&#39;);
+
+// Using JavaScript to change an HTML element
+document.getElementById(&#39;demo&#39;).innerHTML = &#39;Hello JavaScript!&#39;;
+
+// Creating a simple function
+function greet(name) {
+  return &#39;Hello, &#39; + name + &#39;!&#39;;
+}
+
+console.log(greet(&#39;Learner&#39;));</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="variables" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Variables and Data Types</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Variables are containers for storing data values. In JavaScript, you declare variables using <code>var</code>, <code>let</code>, or <code>const</code>:</p><ul><li><code>var</code>: Function-scoped, can be redeclared and updated (older way, less recommended now)</li><li><code>let</code>: Block-scoped, can be updated but not redeclared within the same scope</li><li><code>const</code>: Block-scoped, cannot be updated or redeclared (for constant values)</li></ul><p>JavaScript has several data types:</p><ul><li><strong>Primitive types:</strong><ul><li><code>String</code>: Text values ('Hello', "World")</li><li><code>Number</code>: Numeric values (42, 3.14)</li><li><code>Boolean</code>: true or false</li><li><code>undefined</code>: Variable declared but not assigned a value</li><li><code>null</code>: Intentional absence of value</li><li><code>Symbol</code>: Unique and immutable value (ES6)</li><li><code>BigInt</code>: For large integers (ES2020)</li></ul></li><li><strong>Reference types:</strong><ul><li><code>Object</code>: Collections of key-value pairs</li><li><code>Array</code>: Ordered lists</li><li><code>Function</code>: Code blocks that can be executed</li></ul></li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Variable declarations
+var oldWay = &#39;Using var&#39;; // Function-scoped
+let modernWay = &#39;Using let&#39;; // Block-scoped
+const CONSTANT = &#39;Cannot change&#39;; // Cannot be reassigned
+
+// Primitive data types
+let name = &#39;John&#39;; // String
+let age = 30; // Number
+let isStudent = true; // Boolean
+let job = undefined; // Undefined
+let salary = null; // Null
+
+// Reference data types
+// Object
+let person = {
+  firstName: &#39;John&#39;,
+  lastName: &#39;Doe&#39;,
+  age: 30
+};
+
+// Array
+let colors = [&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;];
+
+// Function
+let greet = function() {
+  return &#39;Hello!&#39;;
+};
+
+// Checking data types
+console.log(typeof name); // &#39;string&#39;
+console.log(typeof age); // &#39;number&#39;
+console.log(typeof isStudent); // &#39;boolean&#39;
+console.log(typeof job); // &#39;undefined&#39;
+console.log(typeof salary); // &#39;object&#39; (historical bug in JavaScript)
+console.log(typeof person); // &#39;object&#39;
+console.log(typeof colors); // &#39;object&#39; (arrays are objects in JavaScript)
+console.log(typeof greet); // &#39;function&#39;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>string<br>number<br>boolean<br>undefined<br>object<br>object<br>object<br>function</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="operators" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Operators</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Operators are symbols that perform operations on operands (values and variables). JavaScript has several types of operators:</p><h4>Arithmetic Operators</h4><ul><li><code>+</code> Addition</li><li><code>-</code> Subtraction</li><li><code>*</code> Multiplication</li><li><code>/</code> Division</li><li><code>%</code> Modulus (remainder)</li><li><code>**</code> Exponentiation (ES2016)</li><li><code>++</code> Increment</li><li><code>--</code> Decrement</li></ul><h4>Assignment Operators</h4><ul><li><code>=</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>, etc.</li></ul><h4>Comparison Operators</h4><ul><li><code>==</code> Equal to (value only)</li><li><code>===</code> Equal to (value and type)</li><li><code>!=</code> Not equal to (value only)</li><li><code>!==</code> Not equal to (value and type)</li><li><code>></code> Greater than</li><li><code><</code> Less than</li><li><code>>=</code> Greater than or equal to</li><li><code><=</code> Less than or equal to</li></ul><h4>Logical Operators</h4><ul><li><code>&&</code> Logical AND</li><li><code>||</code> Logical OR</li><li><code>!</code> Logical NOT</li></ul><h4>Type Operators</h4><ul><li><code>typeof</code> Returns the type of a variable</li><li><code>instanceof</code> Returns true if an object is an instance of a specified type</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Arithmetic operators
+let a = 10;
+let b = 5;
+let sum = a + b;      // 15
+let diff = a - b;     // 5
+let product = a * b;  // 50
+let quotient = a / b; // 2
+let remainder = a % b; // 0
+let power = a ** 2;    // 100
+
+// Increment and decrement
+let counter = 1;
+counter++;  // counter is now 2
+counter--;  // counter is now 1
+
+// Assignment operators
+let x = 10;
+x += 5;  // Same as x = x + 5, x is now 15
+x -= 3;  // Same as x = x - 3, x is now 12
+x *= 2;  // Same as x = x * 2, x is now 24
+x /= 4;  // Same as x = x / 4, x is now 6
+
+// Comparison operators
+console.log(5 == &#34;5&#34;);   // true (value equality)
+console.log(5 === &#34;5&#34;);  // false (strict equality - different types)
+console.log(5 != &#34;5&#34;);   // false
+console.log(5 !== &#34;5&#34;);  // true
+console.log(10 &gt; 5);     // true
+console.log(10 &lt; 5);     // false
+
+// Logical operators
+let isAdult = true;
+let hasPermission = false;
+console.log(isAdult &amp;&amp; hasPermission); // false (both must be true)
+console.log(isAdult || hasPermission); // true (at least one is true)
+console.log(!isAdult); // false (negation)</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>true<br>false<br>false<br>true<br>true<br>false<br>false<br>true<br>false</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="control-flow" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Control Flow</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Control flow statements determine the order in which code is executed. They allow you to make decisions, create loops, and handle exceptions.</p><h4>Conditional Statements</h4><ul><li><code>if</code> statement: Executes a block of code if a condition is true</li><li><code>else</code> statement: Executes a block of code if the same condition is false</li><li><code>else if</code> statement: Specifies a new condition if the first condition is false</li><li><code>switch</code> statement: Selects one of many code blocks to be executed</li></ul><h4>Loops</h4><ul><li><code>for</code> loop: Repeats a block of code a specified number of times</li><li><code>while</code> loop: Repeats a block of code while a condition is true</li><li><code>do...while</code> loop: Repeats a block of code while a condition is true (executes at least once)</li><li><code>for...in</code> loop: Iterates over properties of an object</li><li><code>for...of</code> loop: Iterates over values of an iterable object (arrays, strings, etc.)</li></ul><h4>Error Handling</h4><ul><li><code>try...catch</code> statement: Handles errors gracefully without stopping the script</li><li><code>throw</code> statement: Creates custom errors</li><li><code>finally</code> block: Executes code regardless of the result</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// If, else if, else statement
+let hour = 15;
+let greeting;
+
+if (hour &lt; 12) {
+  greeting = &#34;Good morning&#34;;
+} else if (hour &lt; 18) {
+  greeting = &#34;Good afternoon&#34;;
+} else {
+  greeting = &#34;Good evening&#34;;
+}
+
+console.log(greeting); // &#34;Good afternoon&#34;
+
+// Switch statement
+let day = 3;
+let dayName;
+
+switch (day) {
+  case 1:
+    dayName = &#34;Monday&#34;;
+    break;
+  case 2:
+    dayName = &#34;Tuesday&#34;;
+    break;
+  case 3:
+    dayName = &#34;Wednesday&#34;;
+    break;
+  case 4:
+    dayName = &#34;Thursday&#34;;
+    break;
+  case 5:
+    dayName = &#34;Friday&#34;;
+    break;
+  default:
+    dayName = &#34;Weekend&#34;;
+}
+
+console.log(dayName); // &#34;Wednesday&#34;
+
+// For loop
+console.log(&#34;For loop:&#34;)
+for (let i = 0; i &lt; 3; i++) {
+  console.log(i);
+}
+
+// While loop
+console.log(&#34;While loop:&#34;)
+let j = 0;
+while (j &lt; 3) {
+  console.log(j);
+  j++;
+}
+
+// Do-while loop
+console.log(&#34;Do-while loop:&#34;)
+let k = 0;
+do {
+  console.log(k);
+  k++;
+} while (k &lt; 3);
+
+// Error handling
+try {
+  // Attempt to execute this code
+  let result = undefinedVariable / 10; // This will cause an error
+} catch (error) {
+  console.log(&#34;An error occurred: &#34; + error.message);
+} finally {
+  console.log(&#34;This always executes&#34;);
+}</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Good afternoon<br>Wednesday<br>For loop:<br>0<br>1<br>2<br>While loop:<br>0<br>1<br>2<br>Do-while loop:<br>0<br>1<br>2<br>An error occurred: undefinedVariable is not defined<br>This always executes</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Functions and Objects</h3>
+                
+                
+                <div id="functions" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Functions</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Functions are blocks of code designed to perform a particular task. They are executed when they are called (invoked).</p><h4>Function Declaration</h4><p>There are several ways to define functions in JavaScript:</p><ul><li><strong>Function Declaration</strong>: Uses the <code>function</code> keyword followed by a name</li><li><strong>Function Expression</strong>: Assigns an anonymous function to a variable</li><li><strong>Arrow Functions</strong> (ES6): A shorter syntax using the <code>=></code> symbol</li></ul><h4>Parameters and Arguments</h4><p>Functions can take inputs (parameters) and return outputs. Parameters are listed in the function definition, while arguments are the values passed to the function when it's called.</p><h4>Scope and Closures</h4><p>Each function creates its own scope, which is the context where variables are accessible. A closure is a function that remembers its outer variables and can access them later, even when executed outside its original scope.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Function Declaration
+function greet(name) {
+  return &#39;Hello, &#39; + name + &#39;!&#39;;
+}
+
+// Function Expression
+const sayGoodbye = function(name) {
+  return &#39;Goodbye, &#39; + name + &#39;!&#39;;
+};
+
+// Arrow Function (ES6)
+const multiply = (a, b) =&gt; a * b;
+
+// Calling functions
+console.log(greet(&#39;John&#39;)); // &#34;Hello, John!&#34;
+console.log(sayGoodbye(&#39;John&#39;)); // &#34;Goodbye, John!&#34;
+console.log(multiply(5, 3)); // 15
+
+// Default parameters (ES6)
+function greetWithDefault(name = &#39;Guest&#39;) {
+  return &#39;Hello, &#39; + name + &#39;!&#39;;
+}
+
+console.log(greetWithDefault()); // &#34;Hello, Guest!&#34;
+
+// Rest parameters (ES6)
+function sum(...numbers) {
+  return numbers.reduce((total, num) =&gt; total + num, 0);
+}
+
+console.log(sum(1, 2, 3, 4, 5)); // 15
+
+// Closures
+function createCounter() {
+  let count = 0;
+  
+  return function() {
+    count += 1;
+    return count;
+  };
+}
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+console.log(counter()); // 3</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Hello, John!<br>Goodbye, John!<br>15<br>Hello, Guest!<br>15<br>1<br>2<br>3</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="objects" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Objects</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Objects are collections of key-value pairs, where the keys are strings (or Symbols) and the values can be any data type, including other objects and functions.</p><h4>Creating Objects</h4><p>There are several ways to create objects:</p><ul><li><strong>Object literals</strong>: Using curly braces <code>{}</code></li><li><strong>Constructor functions</strong>: Using <code>new</code> keyword</li><li><strong>Object.create()</strong>: Using a prototype object</li><li><strong>ES6 Classes</strong>: A more familiar syntax for object-oriented programming</li></ul><h4>Accessing Object Properties</h4><p>You can access object properties using:</p><ul><li>Dot notation: <code>object.property</code></li><li>Bracket notation: <code>object['property']</code></li></ul><h4>Object Methods</h4><p>Functions stored as object properties are called methods. They can access and modify the object's properties using the <code>this</code> keyword.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Object literal
+const person = {
+  firstName: &#39;John&#39;,
+  lastName: &#39;Doe&#39;,
+  age: 30,
+  fullName: function() {
+    return this.firstName + &#39; &#39; + this.lastName;
+  }
+};
+
+// Accessing properties
+console.log(person.firstName); // &#34;John&#34;
+console.log(person[&#39;lastName&#39;]); // &#34;Doe&#34;
+
+// Calling methods
+console.log(person.fullName()); // &#34;John Doe&#34;
+
+// Adding and modifying properties
+person.email = &#39;john@example.com&#39;;
+person.age = 31;
+
+// Object.keys(), Object.values(), Object.entries()
+console.log(Object.keys(person)); // [&#34;firstName&#34;, &#34;lastName&#34;, &#34;age&#34;, &#34;fullName&#34;, &#34;email&#34;]
+console.log(Object.values(person)); // [&#34;John&#34;, &#34;Doe&#34;, 31, ƒ, &#34;john@example.com&#34;]
+
+// ES6 enhanced object literals
+const name = &#39;Computer&#39;;
+const price = 1000;
+
+const product = {
+  name, // Same as name: name
+  price, // Same as price: price
+  displayInfo() { // Method shorthand
+    return `${this.name}: $${this.price}`;
+  }
+};
+
+console.log(product.displayInfo()); // &#34;Computer: $1000&#34;
+
+// Constructor function
+function Car(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+  this.getDescription = function() {
+    return `${this.year} ${this.make} ${this.model}`;
+  };
+}
+
+const myCar = new Car(&#39;Toyota&#39;, &#39;Corolla&#39;, 2020);
+console.log(myCar.getDescription()); // &#34;2020 Toyota Corolla&#34;
+
+// ES6 Classes
+class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+  
+  getFullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+}
+
+const john = new Person(&#39;John&#39;, &#39;Smith&#39;);
+console.log(john.getFullName()); // &#34;John Smith&#34;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>John<br>Doe<br>John Doe<br>["firstName", "lastName", "age", "fullName", "email"]<br>Computer: $1000<br>2020 Toyota Corolla<br>John Smith</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="arrays" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Arrays</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Arrays are ordered collections of values. In JavaScript, arrays can hold mixed types of data and are dynamically sized.</p><h4>Creating Arrays</h4><p>You can create arrays using:</p><ul><li>Array literals: <code>[]</code></li><li>Array constructor: <code>new Array()</code></li></ul><h4>Array Methods</h4><p>JavaScript arrays come with many built-in methods for manipulation:</p><ul><li><strong>Adding/Removing Elements</strong>: <code>push()</code>, <code>pop()</code>, <code>shift()</code>, <code>unshift()</code>, <code>splice()</code></li><li><strong>Finding Elements</strong>: <code>indexOf()</code>, <code>find()</code>, <code>filter()</code></li><li><strong>Transforming Arrays</strong>: <code>map()</code>, <code>reduce()</code>, <code>sort()</code>, <code>reverse()</code></li><li><strong>Iterating</strong>: <code>forEach()</code></li><li><strong>Other Useful Methods</strong>: <code>concat()</code>, <code>slice()</code>, <code>join()</code>, <code>includes()</code></li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Creating arrays
+let fruits = [&#39;Apple&#39;, &#39;Banana&#39;, &#39;Orange&#39;];
+let mixed = [1, &#39;hello&#39;, true, {name: &#39;John&#39;}, [1, 2, 3]];
+
+// Accessing elements
+console.log(fruits[0]); // &#34;Apple&#34;
+console.log(fruits[fruits.length - 1]); // &#34;Orange&#34; (last element)
+
+// Adding elements
+fruits.push(&#39;Mango&#39;); // Add to end
+fruits.unshift(&#39;Strawberry&#39;); // Add to beginning
+console.log(fruits); // [&#34;Strawberry&#34;, &#34;Apple&#34;, &#34;Banana&#34;, &#34;Orange&#34;, &#34;Mango&#34;]
+
+// Removing elements
+let lastFruit = fruits.pop(); // Remove from end
+let firstFruit = fruits.shift(); // Remove from beginning
+console.log(fruits); // [&#34;Apple&#34;, &#34;Banana&#34;, &#34;Orange&#34;]
+console.log(lastFruit); // &#34;Mango&#34;
+console.log(firstFruit); // &#34;Strawberry&#34;
+
+// Transforming arrays
+let numbers = [1, 2, 3, 4, 5];
+
+// map: Creates a new array by performing a function on each array element
+let doubled = numbers.map(num =&gt; num * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+
+// filter: Creates a new array with elements that pass a test
+let evenNumbers = numbers.filter(num =&gt; num % 2 === 0);
+console.log(evenNumbers); // [2, 4]
+
+// reduce: Reduces the array to a single value
+let sum = numbers.reduce((total, num) =&gt; total + num, 0);
+console.log(sum); // 15
+
+// forEach: Executes a function for each array element
+numbers.forEach(num =&gt; console.log(num));
+
+// find: Returns the first element that passes a test
+let found = numbers.find(num =&gt; num &gt; 3);
+console.log(found); // 4
+
+// sort: Sorts the elements of an array
+let unsortedNumbers = [3, 1, 4, 1, 5];
+unsortedNumbers.sort();
+console.log(unsortedNumbers); // [1, 1, 3, 4, 5]
+
+// Custom sort function
+let scores = [40, 100, 1, 5, 25, 10];
+scores.sort((a, b) =&gt; a - b); // Ascending order
+console.log(scores); // [1, 5, 10, 25, 40, 100]</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Apple<br>Orange<br>["Strawberry", "Apple", "Banana", "Orange", "Mango"]<br>["Apple", "Banana", "Orange"]<br>Mango<br>Strawberry<br>[2, 4, 6, 8, 10]<br>[2, 4]<br>15<br>1<br>2<br>3<br>4<br>5<br>4<br>[1, 1, 3, 4, 5]<br>[1, 5, 10, 25, 40, 100]</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">DOM Manipulation</h3>
+                
+                
+                <div id="dom" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">What is the DOM?</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>The Document Object Model (DOM) is a programming interface for HTML and XML documents. It represents the structure of a document as a tree of objects, where each object corresponds to a part of the document.</p><p>The DOM provides a way for JavaScript to:</p><ul><li>Access and change document content, structure, and styles</li><li>Add, modify, or delete HTML elements and attributes</li><li>React to events like clicks, form submissions, etc.</li></ul><p>The DOM is not a part of JavaScript; it's a Web API that browsers implement to allow scripts to interact with the web page.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// The document object is the entry point to the DOM
+console.log(document.title); // Gets the page title
+
+// DOM navigation
+console.log(document.body); // The body element
+console.log(document.head); // The head element
+console.log(document.documentElement); // The html element
+
+// Basic DOM structure example
+/*
+&lt;html&gt; (document.documentElement)
+  &lt;head&gt; (document.head)
+    &lt;title&gt;My Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt; (document.body)
+    &lt;h1 id=&#34;title&#34;&gt;Hello World&lt;/h1&gt;
+    &lt;p class=&#34;content&#34;&gt;This is a paragraph.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+*/
+
+// Parent, children, and siblings
+const body = document.body;
+const firstChild = body.firstChild; // First child node
+const firstElement = body.firstElementChild; // First element node
+const childNodes = body.childNodes; // All child nodes
+const children = body.children; // All element nodes
+
+// DOM node types
+// Element nodes: Regular HTML elements (type 1)
+// Text nodes: Text content (type 3)
+// Comment nodes: HTML comments (type 8)
+// Document nodes: The document itself (type 9)</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="selecting-elements" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Selecting DOM Elements</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>JavaScript provides several methods to select elements from the DOM:</p><h4>Basic Selectors</h4><ul><li><code>getElementById()</code>: Selects an element by its ID</li><li><code>getElementsByTagName()</code>: Selects all elements with the given tag name</li><li><code>getElementsByClassName()</code>: Selects all elements with the given class name</li></ul><h4>Query Selectors (More Powerful)</h4><ul><li><code>querySelector()</code>: Returns the first element that matches a CSS selector</li><li><code>querySelectorAll()</code>: Returns all elements that match a CSS selector</li></ul><p>Query selectors use CSS-style syntax, making them very versatile for complex selections.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Assuming we have this HTML:
+/*
+&lt;div id=&#34;container&#34;&gt;
+  &lt;h1 id=&#34;title&#34;&gt;My Page&lt;/h1&gt;
+  &lt;p class=&#34;content&#34;&gt;First paragraph&lt;/p&gt;
+  &lt;p class=&#34;content&#34;&gt;Second paragraph&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Item 1&lt;/li&gt;
+    &lt;li&gt;Item 2&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+*/
+
+// getElementById
+const title = document.getElementById(&#39;title&#39;);
+console.log(title); // &lt;h1 id=&#34;title&#34;&gt;My Page&lt;/h1&gt;
+
+// getElementsByTagName
+const paragraphs = document.getElementsByTagName(&#39;p&#39;);
+console.log(paragraphs.length); // 2 (HTMLCollection of 2 items)
+
+// getElementsByClassName
+const contentElements = document.getElementsByClassName(&#39;content&#39;);
+console.log(contentElements.length); // 2 (HTMLCollection of 2 items)
+
+// querySelector - returns the first match
+const firstParagraph = document.querySelector(&#39;p&#39;);
+console.log(firstParagraph); // &lt;p class=&#34;content&#34;&gt;First paragraph&lt;/p&gt;
+
+// querySelectorAll - returns all matches
+const allParagraphs = document.querySelectorAll(&#39;p&#39;);
+console.log(allParagraphs.length); // 2 (NodeList of 2 items)
+
+// Complex CSS selectors
+const listItems = document.querySelectorAll(&#39;ul li&#39;);
+const secondContentParagraph = document.querySelector(&#39;p.content:nth-child(3)&#39;);
+const containedElements = document.querySelectorAll(&#39;#container &gt; *&#39;);
+
+// Converting collections to arrays
+// HTMLCollection and NodeList are array-like, but not true arrays
+const paragraphArray = Array.from(paragraphs);
+// Or using spread syntax
+const listItemArray = [...listItems];
+
+// Now we can use array methods
+paragraphArray.forEach(p =&gt; {
+  console.log(p.textContent);
+});</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="modifying-dom" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Modifying the DOM</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>After selecting elements, you can modify them in various ways:</p><h4>Changing Content</h4><ul><li><code>textContent</code>: Gets or sets the text content (without HTML)</li><li><code>innerHTML</code>: Gets or sets the HTML content (including tags)</li><li><code>innerText</code>: Gets or sets the visible text content</li></ul><h4>Modifying Attributes</h4><ul><li><code>getAttribute()</code>: Gets the value of an attribute</li><li><code>setAttribute()</code>: Sets the value of an attribute</li><li><code>removeAttribute()</code>: Removes an attribute</li><li>Direct property access: <code>element.id</code>, <code>element.src</code>, etc.</li></ul><h4>Manipulating Classes</h4><ul><li><code>classList.add()</code>: Adds a class</li><li><code>classList.remove()</code>: Removes a class</li><li><code>classList.toggle()</code>: Toggles a class on/off</li><li><code>classList.contains()</code>: Checks if an element has a class</li></ul><h4>Changing Styles</h4><ul><li><code>style</code> property: Directly modify inline styles</li><li><code>getComputedStyle()</code>: Get applied styles (read-only)</li></ul><h4>Creating and Removing Elements</h4><ul><li><code>createElement()</code>: Creates a new element</li><li><code>appendChild()</code>: Adds a child element</li><li><code>insertBefore()</code>: Inserts before another element</li><li><code>removeChild()</code>: Removes a child element</li><li><code>remove()</code>: Removes the element itself</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Changing content
+const title = document.querySelector(&#39;#title&#39;);
+title.textContent = &#39;New Title&#39;; // Changes text without HTML
+title.innerHTML = &#39;New &lt;em&gt;Emphasized&lt;/em&gt; Title&#39;; // Parses and applies HTML
+
+// Modifying attributes
+const link = document.querySelector(&#39;a&#39;);
+link.setAttribute(&#39;href&#39;, &#39;https://example.com&#39;);
+link.setAttribute(&#39;target&#39;, &#39;_blank&#39;);
+
+// Shortcuts for common attributes
+link.href = &#39;https://example.com&#39;;
+link.target = &#39;_blank&#39;;
+
+// Manipulating classes
+const paragraph = document.querySelector(&#39;p&#39;);
+paragraph.classList.add(&#39;highlight&#39;); // Adds a class
+paragraph.classList.remove(&#39;old-class&#39;); // Removes a class
+paragraph.classList.toggle(&#39;active&#39;); // Adds if absent, removes if present
+const hasClass = paragraph.classList.contains(&#39;highlight&#39;); // true
+
+// Changing styles
+paragraph.style.color = &#39;blue&#39;;
+paragraph.style.backgroundColor = &#39;yellow&#39;;
+paragraph.style.padding = &#39;10px&#39;;
+
+// Creating and adding elements
+const newElement = document.createElement(&#39;div&#39;);
+newElement.textContent = &#39;This is a new element&#39;;
+newElement.className = &#39;new-div&#39;;
+
+const container = document.querySelector(&#39;#container&#39;);
+container.appendChild(newElement); // Adds at the end
+
+// Insert before another element
+const firstParagraph = document.querySelector(&#39;p&#39;);
+const newParagraph = document.createElement(&#39;p&#39;);
+newParagraph.textContent = &#39;Inserted paragraph&#39;;
+container.insertBefore(newParagraph, firstParagraph);
+
+// Removing elements
+container.removeChild(newParagraph); // Remove specific child
+// Or using the newer method
+newElement.remove(); // Remove the element itself</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><div id='container'><h1 id='title'>New <em>Emphasized</em> Title</h1><p class='highlight' style='color: blue; background-color: yellow; padding: 10px;'>This is a paragraph.</p></div></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="events" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Events</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Events are actions or occurrences that happen in the browser, which can be detected and responded to with JavaScript. Common events include clicks, keyboard presses, form submissions, page loads, and more.</p><h4>Adding Event Listeners</h4><p>There are several ways to add event listeners:</p><ul><li><code>addEventListener()</code>: The modern, recommended way</li><li>HTML attribute: <code>onclick="handler()"</code> (not recommended)</li><li>DOM property: <code>element.onclick = function() {}</code> (limited to one handler)</li></ul><h4>Common Events</h4><ul><li><strong>Mouse events</strong>: <code>click</code>, <code>dblclick</code>, <code>mouseenter</code>, <code>mouseleave</code>, <code>mouseover</code>, <code>mouseout</code>, <code>mousemove</code></li><li><strong>Keyboard events</strong>: <code>keydown</code>, <code>keyup</code>, <code>keypress</code></li><li><strong>Form events</strong>: <code>submit</code>, <code>reset</code>, <code>change</code>, <code>input</code>, <code>focus</code>, <code>blur</code></li><li><strong>Document/Window events</strong>: <code>load</code>, <code>resize</code>, <code>scroll</code>, <code>DOMContentLoaded</code></li></ul><h4>The Event Object</h4><p>When an event occurs, the browser creates an event object with details about the event. This object is automatically passed to event handlers.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Adding event listeners
+const button = document.querySelector(&#39;#myButton&#39;);
+
+// Method 1: addEventListener (recommended)
+button.addEventListener(&#39;click&#39;, function(event) {
+  console.log(&#39;Button clicked!&#39;);
+  console.log(event); // The event object
+});
+
+// Method 2: DOM property (limited to one handler per event)
+button.onclick = function() {
+  alert(&#39;Button clicked!&#39;);
+};
+
+// Method 3: HTML attribute (not recommended)
+// &lt;button onclick=&#34;alert(&#39;Button clicked!&#39;)&#34;&gt;Click me&lt;/button&gt;
+
+// Event object properties
+button.addEventListener(&#39;click&#39;, function(event) {
+  // Common properties
+  console.log(event.type); // &#34;click&#34;
+  console.log(event.target); // The element that triggered the event
+  console.log(event.currentTarget); // The element that the listener is attached to
+  console.log(event.timeStamp); // When the event occurred
+  
+  // Mouse event properties
+  console.log(event.clientX, event.clientY); // Mouse position relative to viewport
+  console.log(event.button); // Which mouse button was pressed
+});
+
+// Prevent default behavior
+const link = document.querySelector(&#39;a&#39;);
+link.addEventListener(&#39;click&#39;, function(event) {
+  event.preventDefault(); // Prevents navigating to the link
+  console.log(&#39;Link click prevented&#39;);
+});
+
+// Stop propagation (event bubbling)
+const child = document.querySelector(&#39;.child&#39;);
+child.addEventListener(&#39;click&#39;, function(event) {
+  event.stopPropagation(); // Prevents the event from bubbling up
+  console.log(&#39;Child clicked, parent will not be notified&#39;);
+});
+
+// Event delegation (efficient for many similar elements)
+const list = document.querySelector(&#39;ul&#39;);
+list.addEventListener(&#39;click&#39;, function(event) {
+  // Check if a list item was clicked
+  if (event.target.tagName === &#39;LI&#39;) {
+    console.log(&#39;List item clicked:&#39;, event.target.textContent);
+  }
+});
+
+// Common events examples
+
+// Form submission
+const form = document.querySelector(&#39;form&#39;);
+form.addEventListener(&#39;submit&#39;, function(event) {
+  event.preventDefault(); // Prevent actual form submission
+  console.log(&#39;Form submitted&#39;);
+  // Get form data
+  const formData = new FormData(form);
+  for (let [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
+});
+
+// Keyboard events
+document.addEventListener(&#39;keydown&#39;, function(event) {
+  console.log(&#39;Key pressed:&#39;, event.key);
+  // Check for specific keys
+  if (event.key === &#39;Escape&#39;) {
+    console.log(&#39;Escape key pressed&#39;);
+  }
+});
+
+// Window events
+window.addEventListener(&#39;resize&#39;, function() {
+  console.log(&#39;Window resized to:&#39;, window.innerWidth, &#39;x&#39;, window.innerHeight);
+});
+
+// DOMContentLoaded - when the HTML is fully loaded
+document.addEventListener(&#39;DOMContentLoaded&#39;, function() {
+  console.log(&#39;DOM fully loaded&#39;);
+});</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Asynchronous JavaScript</h3>
+                
+                
+                <div id="async-intro" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Introduction to Asynchronous JS</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>JavaScript is primarily single-threaded, which means it can only execute one piece of code at a time. However, many operations like fetching data from servers, reading files, or waiting for user input take time to complete.</p><p>Asynchronous programming is a technique that enables your program to start a potentially long-running task and still be able to be responsive to other events while that task runs, rather than having to wait until that task has finished.</p><h4>Key Asynchronous Concepts</h4><ul><li><strong>Callbacks</strong>: Functions passed as arguments to be executed after another function completes</li><li><strong>Promises</strong>: Objects representing the eventual completion or failure of an asynchronous operation</li><li><strong>Async/Await</strong>: A newer, more readable way to work with promises</li><li><strong>Event Loop</strong>: JavaScript's mechanism for handling asynchronous operations</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Synchronous code (blocking)
+console.log(&#39;Start&#39;);
+function calculateSum() {
+  let sum = 0;
+  for (let i = 0; i &lt; 1000000000; i++) {
+    sum += i;
+  }
+  return sum;
+}
+// This blocks the execution until completed
+// console.log(&#39;Sum:&#39;, calculateSum());
+console.log(&#39;End&#39;);
+
+// Asynchronous code (non-blocking)
+console.log(&#39;Start&#39;);
+setTimeout(() =&gt; {
+  console.log(&#39;This runs after 2 seconds&#39;);
+}, 2000);
+console.log(&#39;End&#39;);
+
+// The event loop
+console.log(&#39;First&#39;); // Executes immediately (call stack)
+
+setTimeout(() =&gt; {
+  console.log(&#39;Second&#39;); // Executes after the specified delay (callback queue)
+}, 0);
+
+Promise.resolve().then(() =&gt; {
+  console.log(&#39;Third&#39;); // Executes after synchronous code but before timeout (microtask queue)
+});
+
+console.log(&#39;Fourth&#39;); // Executes immediately (call stack)
+
+// Output will be: First, Fourth, Third, Second</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Start<br>End<br>Start<br>End<br>First<br>Fourth<br>Third<br>Second<br>This runs after 2 seconds</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="callbacks" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Callbacks</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>A callback is a function passed as an argument to another function, which is then invoked inside the outer function to complete some kind of action. Callbacks are the oldest way of handling asynchronous operations in JavaScript.</p><h4>How Callbacks Work</h4><ul><li>A function (let's call it 'A') is passed as an argument to another function (let's call it 'B')</li><li>Function B executes some operations, and when it finishes, it calls function A</li><li>This allows function B to notify function A when it's done, even if B's work takes time</li></ul><h4>Callback Hell</h4><p>When multiple asynchronous operations depend on each other, callbacks can lead to deeply nested code that's hard to read and maintain. This is often called "callback hell" or the "pyramid of doom".</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Basic callback example
+function greet(name, callback) {
+  console.log(&#39;Hello, &#39; + name);
+  callback();
+}
+
+greet(&#39;John&#39;, function() {
+  console.log(&#39;Callback function executed!&#39;);
+});
+
+// Asynchronous callback with setTimeout
+console.log(&#39;Starting...&#39;);
+
+setTimeout(function() {
+  console.log(&#39;This runs after 2 seconds&#39;);
+}, 2000);
+
+console.log(&#39;Continuing execution...&#39;);
+
+// Real-world example: loading a script
+function loadScript(src, callback) {
+  const script = document.createElement(&#39;script&#39;);
+  script.src = src;
+  script.onload = () =&gt; callback(null, script);
+  script.onerror = () =&gt; callback(new Error(`Script load error for ${src}`));
+  document.head.append(script);
+}
+
+// Using the loadScript function
+loadScript(&#39;https://example.com/script.js&#39;, function(error, script) {
+  if (error) {
+    console.error(&#39;Error loading the script:&#39;, error);
+  } else {
+    console.log(&#39;Script loaded successfully:&#39;, script.src);
+    // Maybe load another script...
+  }
+});
+
+// Callback Hell example
+function processData() {
+  fetchData(function(data) {
+    processStep1(data, function(result1) {
+      processStep2(result1, function(result2) {
+        processStep3(result2, function(result3) {
+          processStep4(result3, function(result4) {
+            console.log(&#39;Final result:&#39;, result4);
+          }, handleError);
+        }, handleError);
+      }, handleError);
+    }, handleError);
+  }, handleError);
+}
+
+function handleError(error) {
+  console.error(&#39;An error occurred:&#39;, error);
+}</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Hello, John<br>Callback function executed!<br>Starting...<br>Continuing execution...<br>This runs after 2 seconds</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="promises" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Promises</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Promises were introduced in ES6 (2015) to handle asynchronous operations in a more elegant way than callbacks. A Promise is an object representing the eventual completion or failure of an asynchronous operation.</p><h4>Promise States</h4><p>A Promise can be in one of these states:</p><ul><li><strong>Pending</strong>: Initial state, neither fulfilled nor rejected</li><li><strong>Fulfilled</strong>: The operation completed successfully</li><li><strong>Rejected</strong>: The operation failed</li></ul><h4>Promise Methods</h4><ul><li><code>then()</code>: Called when the promise is fulfilled</li><li><code>catch()</code>: Called when the promise is rejected</li><li><code>finally()</code>: Called regardless of success or failure</li></ul><h4>Promise Chaining</h4><p>One of the key advantages of promises is the ability to chain multiple asynchronous operations together in a readable way.</p><h4>Promise Static Methods</h4><ul><li><code>Promise.all()</code>: Waits for all promises to resolve</li><li><code>Promise.race()</code>: Waits for the first promise to resolve or reject</li><li><code>Promise.resolve()</code>: Returns a resolved promise</li><li><code>Promise.reject()</code>: Returns a rejected promise</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Creating a Promise
+const myPromise = new Promise((resolve, reject) =&gt; {
+  // Simulating an asynchronous operation
+  const success = true;
+  
+  setTimeout(() =&gt; {
+    if (success) {
+      resolve(&#39;Operation successful!&#39;); // Fulfilled
+    } else {
+      reject(new Error(&#39;Operation failed!&#39;)); // Rejected
+    }
+  }, 1000);
+});
+
+// Using a Promise
+myPromise
+  .then((result) =&gt; {
+    console.log(&#39;Success:&#39;, result);
+  })
+  .catch((error) =&gt; {
+    console.error(&#39;Error:&#39;, error.message);
+  })
+  .finally(() =&gt; {
+    console.log(&#39;Promise settled (fulfilled or rejected)&#39;);
+  });
+
+// Promise chaining
+function fetchUserData() {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      resolve({ id: 1, name: &#39;John&#39; });
+    }, 1000);
+  });
+}
+
+function fetchUserPosts(userId) {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      resolve([&#39;Post 1&#39;, &#39;Post 2&#39;, &#39;Post 3&#39;]);
+    }, 1000);
+  });
+}
+
+fetchUserData()
+  .then((user) =&gt; {
+    console.log(&#39;User:&#39;, user);
+    return fetchUserPosts(user.id);
+  })
+  .then((posts) =&gt; {
+    console.log(&#39;Posts:&#39;, posts);
+  })
+  .catch((error) =&gt; {
+    console.error(&#39;Error:&#39;, error);
+  });
+
+// Promise.all - wait for multiple promises
+const promise1 = Promise.resolve(3);
+const promise2 = new Promise((resolve) =&gt; setTimeout(() =&gt; resolve(&#39;foo&#39;), 1000));
+const promise3 = fetch(&#39;https://jsonplaceholder.typicode.com/todos/1&#39;)
+  .then(response =&gt; response.json());
+
+Promise.all([promise1, promise2, promise3])
+  .then((values) =&gt; {
+    console.log(&#39;All promises resolved:&#39;, values);
+  })
+  .catch((error) =&gt; {
+    console.error(&#39;At least one promise rejected:&#39;, error);
+  });
+
+// Promise.race - first to settle wins
+const fastPromise = new Promise((resolve) =&gt; setTimeout(() =&gt; resolve(&#39;fast&#39;), 100));
+const slowPromise = new Promise((resolve) =&gt; setTimeout(() =&gt; resolve(&#39;slow&#39;), 500));
+
+Promise.race([fastPromise, slowPromise])
+  .then((result) =&gt; {
+    console.log(&#39;Fastest promise result:&#39;, result); // &#39;fast&#39;
+  });</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Success: Operation successful!<br>Promise settled (fulfilled or rejected)<br>User: {id: 1, name: 'John'}<br>Posts: ['Post 1', 'Post 2', 'Post 3']<br>Fastest promise result: fast<br>All promises resolved: [3, 'foo', {userId: 1, id: 1, title: '...', completed: false}]</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="async-await" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Async/Await</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Async/await, introduced in ES2017 (ES8), is syntactic sugar built on top of Promises, making asynchronous code look and behave more like synchronous code. This makes asynchronous code more readable and easier to debug.</p><h4>Key Components</h4><ul><li><code>async</code>: Keyword used to declare an asynchronous function that automatically returns a Promise</li><li><code>await</code>: Keyword that pauses the execution of an async function until a Promise is settled</li></ul><h4>Benefits of Async/Await</h4><ul><li>Cleaner, more readable code than promise chains</li><li>Better error handling with try/catch blocks</li><li>Easier debugging</li></ul><h4>Limitations</h4><ul><li>Can only be used inside async functions</li><li>Still uses Promises under the hood</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-javascript rounded-b-md mt-0"><code>// Basic async/await
+async function fetchData() {
+  return &#39;Data fetched!&#39;;
+}
+
+// This is equivalent to:
+// function fetchData() {
+//   return Promise.resolve(&#39;Data fetched!&#39;);
+// }
+
+// Using an async function
+fetchData().then(data =&gt; console.log(data));
+
+// Using await inside an async function
+async function displayData() {
+  try {
+    const data = await fetchData();
+    console.log(&#39;Received:&#39;, data);
+  } catch (error) {
+    console.error(&#39;Error:&#39;, error);
+  }
+}
+
+displayData();
+
+// Real-world example: fetching data from an API
+async function fetchUserData(userId) {
+  try {
+    // await pauses execution until the Promise resolves
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
+    
+    // Check if the request was successful
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    // Parse the JSON response
+    const userData = await response.json();
+    return userData;
+  } catch (error) {
+    console.error(&#39;Error fetching user data:&#39;, error);
+    throw error; // Re-throw to allow caller to handle
+  }
+}
+
+// Using the async function
+async function displayUser() {
+  try {
+    const user = await fetchUserData(1);
+    console.log(&#39;User data:&#39;, user);
+  } catch (error) {
+    console.error(&#39;Failed to display user:&#39;, error);
+  }
+}
+
+displayUser();
+
+// Sequential vs Parallel execution
+
+// Sequential (each await waits for the previous to complete)
+async function sequentialFetch() {
+  console.time(&#39;sequential&#39;);
+  const user1 = await fetchUserData(1);
+  const user2 = await fetchUserData(2);
+  const user3 = await fetchUserData(3);
+  console.timeEnd(&#39;sequential&#39;);
+  return [user1, user2, user3];
+}
+
+// Parallel (all fetches start at the same time)
+async function parallelFetch() {
+  console.time(&#39;parallel&#39;);
+  const userPromises = [
+    fetchUserData(1),
+    fetchUserData(2),
+    fetchUserData(3)
+  ];
+  
+  // Wait for all promises to resolve
+  const users = await Promise.all(userPromises);
+  console.timeEnd(&#39;parallel&#39;);
+  return users;
+}
+
+// For loop with await
+async function processItems(items) {
+  const results = [];
+  
+  for (const item of items) {
+    // Process items sequentially
+    const result = await processItem(item);
+    results.push(result);
+  }
+  
+  return results;
+}
+
+// Handling errors
+async function fetchWithErrorHandling() {
+  try {
+    const result = await fetchDataThatMightFail();
+    return result;
+  } catch (error) {
+    console.error(&#39;Error in fetchWithErrorHandling:&#39;, error);
+    // Handle error or rethrow
+    throw error;
+  } finally {
+    // This runs regardless of success or failure
+    console.log(&#39;Fetch operation completed&#39;);
+  }
+}</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Data fetched!<br>Received: Data fetched!<br>User data: {id: 1, name: 'Leanne Graham', ...}</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex justify-between">
+                    <div>
+                        <a href="/css" class="inline-flex items-center text-primary hover:underline">
+                            <div class="w-5 h-5 mr-1 flex items-center justify-center">
+                                <i class="ri-arrow-left-line"></i>
+                            </div>
+                            <span>Previous: CSS Notes</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/" class="inline-flex items-center text-primary hover:underline">
+                            <span>Back to Home</span>
+                            <div class="w-5 h-5 ml-1 flex items-center justify-center">
+                                <i class="ri-home-line"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Resources -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 mt-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Additional JavaScript Resources</h3>
+            <ul class="space-y-2">
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" class="text-primary hover:underline">MDN Web Docs - JavaScript</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://javascript.info/" target="_blank" class="text-primary hover:underline">JavaScript.info</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://www.w3schools.com/js/" target="_blank" class="text-primary hover:underline">W3Schools JavaScript Tutorial</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://eloquentjavascript.net/" target="_blank" class="text-primary hover:underline">Eloquent JavaScript (Free Book)</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                    <p class="text-gray-600 max-w-md dark:text-gray-300">Helping beginners learn programming with clear, concise notes and examples.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Languages</h2>
+                        <ul class="space-y-2">
+                            <li><a href="HTML_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">HTML</a></li>
+                            <li><a href="CSS_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">CSS</a></li>
+                            <li><a href="JavaScript_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">JavaScript</a></li>
+                            <li><a href="Java_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Java</a></li>
+                            <li><a href="Python_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Python</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Resources</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Tutorials</a></li>
+                            <li><a href="Search_Webpage.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Search</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Links</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">About Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Contact</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-darkborder">
+                <p class="text-gray-500 text-center dark:text-gray-400">&copy; 2025 CodeNotes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="/static/js/prism.js"></script>
+    <script src="/static/js/main.js"></script>
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Highlight active TOC item based on scroll position
+        const sections = document.querySelectorAll('[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        
+        function highlightToc() {
+            let scrollPosition = window.scrollY;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if(scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if(link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', highlightToc);
+        
+        // Smooth scroll for TOC links
+        tocLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- Dark mode toggle functionality and mobile menu ---
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark');
+            if (darkModeToggle) darkModeToggle.checked = true;
+        }
+
+        // Toggle dark mode
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        }
+
+        // Mobile menu toggle
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

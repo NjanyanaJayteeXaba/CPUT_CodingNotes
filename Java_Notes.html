@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Notes - CodeNotes</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0033A0',
+                        secondary: '#FFD100',
+                        codeblue: '#1E40AF',
+                        codepurple: '#7E22CE',
+                        codegreen: '#166534'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="/static/css/prism.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #0033A0;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        
+        body.dark {
+            background-color: #1a1a2e;
+            color: #f0f0f0;
+        }
+        body.dark .bg-white {
+            background-color: #16213e;
+        }
+        body.dark .bg-gray-50 {
+            background-color: #1a1a2e;
+        }
+        body.dark .text-gray-800 {
+            color: #f0f0f0;
+        }
+        body.dark .text-gray-700 {
+            color: #e0e0e0;
+        }
+        body.dark .text-gray-600 {
+            color: #d0d0d0;
+        }
+        body.dark .border-gray-200 {
+            border-color: #2c3e50;
+        }
+        body.dark .hover\:bg-gray-100:hover {
+            background-color: #2c3e50;
+        }
+    </style>
+    <style>
+        .toc-link.active {
+            color: #5382a1;
+            font-weight: 500;
+        }
+        .toc-container {
+            position: sticky;
+            top: 100px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Top Navigation -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="HTML_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <form action="Search_Webpage.html" method="get" class="hidden md:block">
+                        <input type="text" name="q" placeholder="Search notes..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2 dark:text-gray-400">Dark mode</span>
+                    <label class="custom-switch">
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full p-2 dark:text-gray-300 dark:hover:bg-darkborder">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-menu-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-darkborder dark:bg-darkcard">
+            <div class="px-4 py-2 space-y-2">
+                <a href="HTML_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+                <form action="Search_Webpage.html" method="get" class="mt-3">
+                    <input type="text" name="q" placeholder="Search notes..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                </form>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        
+<!-- Language Header -->
+<div class="bg-blue-600 text-white rounded-lg p-6 mb-8">
+    <div class="flex items-center">
+        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="ri-code-s-slash-line text-2xl text-blue-600"></i>
+        </div>
+        <div>
+            <h1 class="text-2xl font-bold">Java Notes</h1>
+            <p>A popular object-oriented programming language</p>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col lg:flex-row gap-8">
+    <!-- Sidebar - Table of Contents -->
+    <div class="lg:w-1/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-4 toc-container">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Table of Contents</h2>
+            <ul class="space-y-3">
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Java Basics</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#introduction" class="toc-link text-sm text-gray-600 hover:text-primary">What is Java?</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#setup" class="toc-link text-sm text-gray-600 hover:text-primary">Setting Up Java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#syntax" class="toc-link text-sm text-gray-600 hover:text-primary">Basic Syntax</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#variables" class="toc-link text-sm text-gray-600 hover:text-primary">Variables and Data Types</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Control Flow</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#conditional-statements" class="toc-link text-sm text-gray-600 hover:text-primary">Conditional Statements</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#loops" class="toc-link text-sm text-gray-600 hover:text-primary">Loops</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Object-Oriented Programming</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#classes-objects" class="toc-link text-sm text-gray-600 hover:text-primary">Classes and Objects</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#inheritance" class="toc-link text-sm text-gray-600 hover:text-primary">Inheritance</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="lg:w-3/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Introduction to Java</h2>
+            <p class="text-gray-600 mb-6">Java is a widely-used object-oriented programming language known for its "write once, run anywhere" capability. It's used for developing everything from mobile apps to enterprise-level applications.</p>
+            
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Java Basics</h3>
+                
+                
+                <div id="introduction" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">What is Java?</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Java is a popular, high-level programming language developed by Sun Microsystems (now owned by Oracle). Since its release in 1995, Java has evolved to become one of the most widely used programming languages in the world.</p><p>Key features of Java include:</p><ul><li><strong>Platform Independence</strong>: Java programs run on the Java Virtual Machine (JVM), allowing them to work on any device or operating system that has a JVM installed ("Write Once, Run Anywhere")</li><li><strong>Object-Oriented</strong>: Java is designed around objects that contain both data and methods</li><li><strong>Simple and Familiar</strong>: Java's syntax is similar to C/C++ but removes complex features like pointers</li><li><strong>Robust and Secure</strong>: Strong memory management, compile-time checking, and runtime checking make Java programs reliable</li><li><strong>Multithreaded</strong>: Java supports concurrent programming for developing efficient applications</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-java rounded-b-md mt-0"><code>// Your first Java program
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println(&#34;Hello, World!&#34;);
+    }
+}</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="setup" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Setting Up Java</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>To start programming in Java, you need to set up the Java Development Kit (JDK). The JDK includes everything you need to develop and run Java applications, including the Java Runtime Environment (JRE) and development tools.</p><h4>Step 1: Download and Install the JDK</h4><p>Visit the <a href='https://www.oracle.com/java/technologies/downloads/' target='_blank'>Oracle website</a> or use an open-source alternative like <a href='https://adoptium.net/' target='_blank'>Adoptium (formerly AdoptOpenJDK)</a> to download the appropriate JDK for your operating system.</p><h4>Step 2: Set Up Environment Variables</h4><p>Configure your system's environment variables to include Java:</p><ul><li>Set JAVA_HOME to point to your JDK installation directory</li><li>Add the JDK's bin directory to your system PATH</li></ul><h4>Step 3: Verify Installation</h4><p>Open a terminal or command prompt and type:</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-java rounded-b-md mt-0"><code>// Check the Java version
+java -version
+
+// Check the Java compiler version
+javac -version</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="syntax" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Basic Syntax</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Java has a C-like syntax with some important rules and conventions:</p><h4>File Structure</h4><ul><li>Each Java file should contain one public class</li><li>The file name must match the public class name (e.g., <code>HelloWorld.java</code> contains <code>public class HelloWorld</code>)</li><li>Each statement ends with a semicolon (<code>;</code>)</li></ul><h4>Main Method</h4><p>The <code>main</code> method is the entry point for Java applications:</p><ul><li>It must be declared as <code>public static void main(String[] args)</code></li><li>The program execution begins at this method</li></ul><h4>Case Sensitivity</h4><p>Java is case-sensitive, meaning <code>Hello</code>, <code>hello</code>, and <code>HELLO</code> are all different identifiers.</p><h4>Comments</h4><p>Java supports single-line and multi-line comments:</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-java rounded-b-md mt-0"><code>// This is a single-line comment
+
+/* This is a 
+   multi-line comment */
+
+/**
+ * This is a documentation comment (Javadoc)
+ * @author Your Name
+ */
+
+public class SyntaxExample {
+    public static void main(String[] args) {
+        // Print a message to the console
+        System.out.println(&#34;Java syntax example&#34;);
+        
+        // Variable declaration and assignment
+        int number = 10;
+        String message = &#34;Hello, Java!&#34;;
+        
+        // Print variables
+        System.out.println(message);
+        System.out.println(&#34;The number is: &#34; + number);
+    }
+}</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="variables" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Variables and Data Types</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Variables in Java are containers that hold values used in a program. Every variable has a data type that determines what kind of values it can store.</p><h4>Declaring Variables</h4><p>The basic syntax for declaring a variable is:</p><pre>dataType variableName = value;</pre><h4>Primitive Data Types</h4><p>Java has eight primitive data types:</p><ul><li><code>byte</code>: 8-bit integer (-128 to 127)</li><li><code>short</code>: 16-bit integer (-32,768 to 32,767)</li><li><code>int</code>: 32-bit integer (-2<sup>31</sup> to 2<sup>31</sup>-1)</li><li><code>long</code>: 64-bit integer (with 'L' suffix, e.g., 100L)</li><li><code>float</code>: 32-bit floating-point (with 'f' suffix, e.g., 3.14f)</li><li><code>double</code>: 64-bit floating-point (default for decimal values)</li><li><code>boolean</code>: true or false</li><li><code>char</code>: Single 16-bit Unicode character ('A', '1', etc.)</li></ul><h4>Reference Data Types</h4><p>Reference types store references to objects:</p><ul><li><code>String</code>: Sequence of characters</li><li>Arrays</li><li>Classes</li><li>Interfaces</li></ul><h4>Variable Naming Rules</h4><ul><li>Names can contain letters, digits, underscore (_), and dollar sign ($)</li><li>Names must begin with a letter, underscore, or dollar sign</li><li>Names cannot be Java keywords</li><li>Names are case-sensitive</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-java rounded-b-md mt-0"><code>// Primitive data types
+byte smallNumber = 127;
+short mediumNumber = 32767;
+int standardNumber = 2147483647;
+long largeNumber = 9223372036854775807L;
+float decimalNumber = 3.14f;
+double preciseNumber = 3.141592653589793;
+boolean isJavaFun = true;
+char singleCharacter = &#39;A&#39;;
+
+// Reference data types
+String message = &#34;Hello, Java!&#34;;
+int[] numbers = {1, 2, 3, 4, 5};
+
+// Constants (final variables)
+final double PI = 3.14159;
+
+// Printing variables
+System.out.println(&#34;byte: &#34; + smallNumber);
+System.out.println(&#34;short: &#34; + mediumNumber);
+System.out.println(&#34;int: &#34; + standardNumber);
+System.out.println(&#34;long: &#34; + largeNumber);
+System.out.println(&#34;float: &#34; + decimalNumber);
+System.out.println(&#34;double: &#34; + preciseNumber);
+System.out.println(&#34;boolean: &#34; + isJavaFun);
+System.out.println(&#34;char: &#34; + singleCharacter);
+System.out.println(&#34;String: &#34; + message);
+System.out.println(&#34;First element in array: &#34; + numbers[0]);</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>byte: 127
+short: 32767
+int: 2147483647
+long: 9223372036854775807
+float: 3.14
+double: 3.141592653589793
+boolean: true
+char: A
+String: Hello, Java!
+First element in array: 1</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Control Flow</h3>
+                
+                
+                <div id="conditional-statements" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Conditional Statements</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Conditional statements allow your program to make decisions based on certain conditions. Java provides several types of conditional statements:</p><h4>if Statement</h4><p>The <code>if</code> statement executes a block of code if a specified condition is true.</p><h4>if-else Statement</h4><p>The <code>if-else</code> statement executes one block of code if a condition is true and another block if the condition is false.</p><h4>if-else-if Statement</h4><p>The <code>if-else-if</code> statement chain allows you to check multiple conditions in sequence.</p><h4>switch Statement</h4><p>The <code>switch</code> statement selects one of many code blocks to be executed based on the value of an expression.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-java rounded-b-md mt-0"><code>// if statement
+int age = 20;
+if (age &gt;= 18) {
+    System.out.println(&#34;You are an adult.&#34;);
+}
+
+// if-else statement
+int time = 22;
+if (time &lt; 12) {
+    System.out.println(&#34;Good morning.&#34;);
+} else {
+    System.out.println(&#34;Good day.&#34;);
+}
+
+// if-else-if statement
+int score = 85;
+if (score &gt;= 90) {
+    System.out.println(&#34;Grade: A&#34;);
+} else if (score &gt;= 80) {
+    System.out.println(&#34;Grade: B&#34;);
+} else if (score &gt;= 70) {
+    System.out.println(&#34;Grade: C&#34;);
+} else if (score &gt;= 60) {
+    System.out.println(&#34;Grade: D&#34;);
+} else {
+    System.out.println(&#34;Grade: F&#34;);
+}
+
+// switch statement
+int day = 4;
+switch (day) {
+    case 1:
+        System.out.println(&#34;Monday&#34;);
+        break;
+    case 2:
+        System.out.println(&#34;Tuesday&#34;);
+        break;
+    case 3:
+        System.out.println(&#34;Wednesday&#34;);
+        break;
+    case 4:
+        System.out.println(&#34;Thursday&#34;);
+        break;
+    case 5:
+        System.out.println(&#34;Friday&#34;);
+        break;
+    case 6:
+        System.out.println(&#34;Saturday&#34;);
+        break;
+    case 7:
+        System.out.println(&#34;Sunday&#34;);
+        break;
+    default:
+        System.out.println(&#34;Invalid day&#34;);
+}</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>You are an adult.
+Good day.
+Grade: B
+Thursday</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="loops" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Loops</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Loops allow you to execute a block of code repeatedly. Java provides several types of loops:</p><h4>for Loop</h4><p>The <code>for</code> loop repeats a block of code a specified number of times. It consists of an initialization, a condition, and an increment/decrement part.</p><h4>while Loop</h4><p>The <code>while</code> loop repeats a block of code as long as a specified condition is true. The condition is checked before executing the loop body.</p><h4>do-while Loop</h4><p>The <code>do-while</code> loop is similar to the <code>while</code> loop, but it checks the condition after executing the loop body, ensuring the loop runs at least once.</p><h4>for-each Loop</h4><p>The enhanced <code>for</code> loop (also known as the for-each loop) is used to iterate through elements in an array or collection.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-java rounded-b-md mt-0"><code>// for loop
+System.out.println(&#34;For loop:&#34;);
+for (int i = 0; i &lt; 5; i++) {
+    System.out.println(&#34;Count: &#34; + i);
+}
+
+// while loop
+System.out.println(&#34;\nWhile loop:&#34;);
+int j = 0;
+while (j &lt; 5) {
+    System.out.println(&#34;Count: &#34; + j);
+    j++;
+}
+
+// do-while loop
+System.out.println(&#34;\nDo-while loop:&#34;);
+int k = 0;
+do {
+    System.out.println(&#34;Count: &#34; + k);
+    k++;
+} while (k &lt; 5);
+
+// for-each loop
+System.out.println(&#34;\nFor-each loop:&#34;);
+String[] fruits = {&#34;Apple&#34;, &#34;Banana&#34;, &#34;Cherry&#34;, &#34;Date&#34;, &#34;Elderberry&#34;};
+for (String fruit : fruits) {
+    System.out.println(&#34;Fruit: &#34; + fruit);
+}
+
+// break statement
+System.out.println(&#34;\nBreak example:&#34;);
+for (int i = 0; i &lt; 10; i++) {
+    if (i == 5) {
+        break;  // Exit the loop when i equals 5
+    }
+    System.out.println(&#34;Count: &#34; + i);
+}
+
+// continue statement
+System.out.println(&#34;\nContinue example:&#34;);
+for (int i = 0; i &lt; 10; i++) {
+    if (i % 2 == 0) {
+        continue;  // Skip even numbers
+    }
+    System.out.println(&#34;Odd number: &#34; + i);
+}</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>For loop:
+Count: 0
+Count: 1
+Count: 2
+Count: 3
+Count: 4
+
+While loop:
+Count: 0
+Count: 1
+Count: 2
+Count: 3
+Count: 4
+
+Do-while loop:
+Count: 0
+Count: 1
+Count: 2
+Count: 3
+Count: 4
+
+For-each loop:
+Fruit: Apple
+Fruit: Banana
+Fruit: Cherry
+Fruit: Date
+Fruit: Elderberry
+
+Break example:
+Count: 0
+Count: 1
+Count: 2
+Count: 3
+Count: 4
+
+Continue example:
+Odd number: 1
+Odd number: 3
+Odd number: 5
+Odd number: 7
+Odd number: 9</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Object-Oriented Programming</h3>
+                
+                
+                <div id="classes-objects" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Classes and Objects</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects", which can contain data and code. In Java, everything is associated with classes and objects.</p><h4>Classes</h4><p>A class is a blueprint or template for creating objects. It defines the properties (fields) and behaviors (methods) that objects of that type will have.</p><h4>Objects</h4><p>An object is an instance of a class. When a class is defined, no memory is allocated until an object is instantiated using the <code>new</code> keyword.</p><h4>Constructors</h4><p>Constructors are special methods used to initialize objects. They have the same name as the class and are called when a new object is created.</p><h4>Access Modifiers</h4><p>Access modifiers control the visibility of classes, methods, and fields:</p><ul><li><code>public</code>: Accessible from any class</li><li><code>private</code>: Accessible only within the same class</li><li><code>protected</code>: Accessible within the same package and by subclasses</li><li>Default (no modifier): Accessible only within the same package</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-java rounded-b-md mt-0"><code>// Define a class
+public class Person {
+    // Fields (attributes)
+    private String name;
+    private int age;
+    
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    // Default constructor
+    public Person() {
+        this.name = &#34;Unknown&#34;;
+        this.age = 0;
+    }
+    
+    // Methods (behaviors)
+    public void sayHello() {
+        System.out.println(&#34;Hello, my name is &#34; + name + &#34;.\nI am &#34; + age + &#34; years old.&#34;);
+    }
+    
+    // Getters and setters
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public void setAge(int age) {
+        if (age &gt;= 0) {
+            this.age = age;
+        }
+    }
+}
+
+// Using the class
+public class Main {
+    public static void main(String[] args) {
+        // Create objects
+        Person person1 = new Person(&#34;John&#34;, 25);
+        Person person2 = new Person();
+        
+        // Call methods
+        person1.sayHello();
+        
+        // Use getters and setters
+        person2.setName(&#34;Jane&#34;);
+        person2.setAge(30);
+        System.out.println(person2.getName() + &#34; is &#34; + person2.getAge() + &#34; years old.&#34;);
+    }
+}</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Hello, my name is John.
+I am 25 years old.
+Jane is 30 years old.</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="inheritance" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Inheritance</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Inheritance is a mechanism in which one class acquires the properties and behaviors of another class. It's one of the key concepts in object-oriented programming.</p><h4>Base Class (Parent or Superclass)</h4><p>The class whose features are inherited is called the base class.</p><h4>Derived Class (Child or Subclass)</h4><p>The class that inherits the features of another class is called the derived class.</p><h4>Extending Classes</h4><p>In Java, you use the <code>extends</code> keyword to implement inheritance.</p><h4>Method Overriding</h4><p>Method overriding occurs when a subclass provides a specific implementation of a method already defined in its superclass.</p><h4>super Keyword</h4><p>The <code>super</code> keyword refers to the parent class and is used to call the parent class's methods or constructors.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-java rounded-b-md mt-0"><code>// Parent class
+public class Animal {
+    private String name;
+    
+    public Animal(String name) {
+        this.name = name;
+    }
+    
+    public void eat() {
+        System.out.println(name + &#34; is eating.&#34;);
+    }
+    
+    public void sleep() {
+        System.out.println(name + &#34; is sleeping.&#34;);
+    }
+    
+    public String getName() {
+        return name;
+    }
+}
+
+// Child class inheriting from Animal
+public class Dog extends Animal {
+    private String breed;
+    
+    public Dog(String name, String breed) {
+        super(name);  // Call the parent constructor
+        this.breed = breed;
+    }
+    
+    // Method overriding
+    @Override
+    public void eat() {
+        System.out.println(getName() + &#34; the &#34; + breed + &#34; is eating dog food.&#34;);
+    }
+    
+    // New method specific to Dog
+    public void bark() {
+        System.out.println(getName() + &#34; says: Woof! Woof!&#34;);
+    }
+    
+    public String getBreed() {
+        return breed;
+    }
+}
+
+// Using inheritance
+public class Main {
+    public static void main(String[] args) {
+        // Create an Animal object
+        Animal animal = new Animal(&#34;Generic Animal&#34;);
+        animal.eat();
+        animal.sleep();
+        
+        // Create a Dog object
+        Dog dog = new Dog(&#34;Buddy&#34;, &#34;Golden Retriever&#34;);
+        dog.eat();  // Calls the overridden method
+        dog.sleep();  // Calls the inherited method
+        dog.bark();  // Calls the specific method
+        
+        // Polymorphism (treating a Dog as an Animal)
+        Animal pet = new Dog(&#34;Max&#34;, &#34;German Shepherd&#34;);
+        pet.eat();  // Calls Dog&#39;s eat() method
+        pet.sleep();  // Calls Animal&#39;s sleep() method
+        // pet.bark();  // Error: Animal doesn&#39;t have bark() method
+    }
+}</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><pre>Generic Animal is eating.
+Generic Animal is sleeping.
+Buddy the Golden Retriever is eating dog food.
+Buddy is sleeping.
+Buddy says: Woof! Woof!
+Max the German Shepherd is eating dog food.
+Max is sleeping.</pre></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex justify-between">
+                    <div>
+                        <a href="/javascript" class="inline-flex items-center text-primary hover:underline">
+                            <div class="w-5 h-5 mr-1 flex items-center justify-center">
+                                <i class="ri-arrow-left-line"></i>
+                            </div>
+                            <span>Previous: JavaScript Notes</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/python" class="inline-flex items-center text-primary hover:underline">
+                            <span>Next: Python Notes</span>
+                            <div class="w-5 h-5 ml-1 flex items-center justify-center">
+                                <i class="ri-arrow-right-line"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Resources -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 mt-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Additional Java Resources</h3>
+            <ul class="space-y-2">
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://docs.oracle.com/javase/tutorial/" target="_blank" class="text-primary hover:underline">Oracle Java Tutorials</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://www.w3schools.com/java/" target="_blank" class="text-primary hover:underline">W3Schools Java Tutorial</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://www.javatpoint.com/java-tutorial" target="_blank" class="text-primary hover:underline">JavaTpoint Java Tutorial</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://www.codecademy.com/learn/learn-java" target="_blank" class="text-primary hover:underline">Codecademy Java Course</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                    <p class="text-gray-600 max-w-md dark:text-gray-300">Helping beginners learn programming with clear, concise notes and examples.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Languages</h2>
+                        <ul class="space-y-2">
+                            <li><a href="HTML_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">HTML</a></li>
+                            <li><a href="CSS_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">CSS</a></li>
+                            <li><a href="JavaScript_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">JavaScript</a></li>
+                            <li><a href="Java_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Java</a></li>
+                            <li><a href="Python_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Python</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Resources</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Tutorials</a></li>
+                            <li><a href="Search_Webpage.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Search</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Links</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">About Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Contact</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-darkborder">
+                <p class="text-gray-500 text-center dark:text-gray-400">&copy; 2025 CodeNotes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="/static/js/prism.js"></script>
+    <script src="/static/js/main.js"></script>
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Highlight active TOC item based on scroll position
+        const sections = document.querySelectorAll('[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        
+        function highlightToc() {
+            let scrollPosition = window.scrollY;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if(scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if(link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', highlightToc);
+        
+        // Smooth scroll for TOC links
+        tocLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- Dark mode toggle functionality and mobile menu ---
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark');
+            if (darkModeToggle) darkModeToggle.checked = true;
+        }
+
+        // Toggle dark mode
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        }
+
+        // Mobile menu toggle
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

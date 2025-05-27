@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Notes - CodeNotes</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0033A0',
+                        secondary: '#FFD100',
+                        codeblue: '#1E40AF',
+                        codepurple: '#7E22CE',
+                        codegreen: '#166534'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="/static/css/prism.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #0033A0;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+    
+        body.dark {
+            background-color: #1a1a2e;
+            color: #f0f0f0;
+        }
+        body.dark .bg-white {
+            background-color: #16213e;
+        }
+        body.dark .bg-gray-50 {
+            background-color: #1a1a2e;
+        }
+        body.dark .text-gray-800 {
+            color: #f0f0f0;
+        }
+        body.dark .text-gray-700 {
+            color: #e0e0e0;
+        }
+        body.dark .text-gray-600 {
+            color: #d0d0d0;
+        }
+        body.dark .border-gray-200 {
+            border-color: #2c3e50;
+        }
+        body.dark .hover\:bg-gray-100:hover {
+            background-color: #2c3e50;
+        }
+    </style>
+    
+<style>
+    .toc-link.active {
+        color: #0033A0;
+        font-weight: 500;
+    }
+    .toc-container {
+        position: sticky;
+        top: 100px;
+    }
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Top Navigation -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="HTML_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <form action="Search_Webpage.html" method="get" class="hidden md:block">
+                        <input type="text" name="q" placeholder="Search notes..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2 dark:text-gray-400">Dark mode</span>
+                    <label class="custom-switch">
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full p-2 dark:text-gray-300 dark:hover:bg-darkborder">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-menu-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-darkborder dark:bg-darkcard">
+            <div class="px-4 py-2 space-y-2">
+                <a href="HTML_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+                <form action="Search_Webpage.html" method="get" class="mt-3">
+                    <input type="text" name="q" placeholder="Search notes..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                </form>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        
+<!-- Language Header -->
+<div class="bg-red-500 text-white rounded-lg p-6 mb-8">
+    <div class="flex items-center">
+        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="ri-html5-line text-2xl text-red-500"></i>
+        </div>
+        <div>
+            <h1 class="text-2xl font-bold">HTML Notes</h1>
+            <p>HyperText Markup Language - The building blocks of the web</p>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col lg:flex-row gap-8">
+    <!-- Sidebar - Table of Contents -->
+    <div class="lg:w-1/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-4 toc-container">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Table of Contents</h2>
+            <ul class="space-y-3">
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">HTML Basics</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#introduction" class="toc-link text-sm text-gray-600 hover:text-primary">What is HTML?</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#structure" class="toc-link text-sm text-gray-600 hover:text-primary">HTML Document Structure</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#elements" class="toc-link text-sm text-gray-600 hover:text-primary">HTML Elements</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#attributes" class="toc-link text-sm text-gray-600 hover:text-primary">HTML Attributes</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Text Formatting</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#headings" class="toc-link text-sm text-gray-600 hover:text-primary">Headings</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#paragraphs" class="toc-link text-sm text-gray-600 hover:text-primary">Paragraphs and Text</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#lists" class="toc-link text-sm text-gray-600 hover:text-primary">Lists</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Links and Images</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#links" class="toc-link text-sm text-gray-600 hover:text-primary">Links</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#images" class="toc-link text-sm text-gray-600 hover:text-primary">Images</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#paths" class="toc-link text-sm text-gray-600 hover:text-primary">File Paths</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Semantic HTML</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#semantic-elements" class="toc-link text-sm text-gray-600 hover:text-primary">Semantic Elements</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#page-structure" class="toc-link text-sm text-gray-600 hover:text-primary">Page Structure</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="font-medium text-gray-700 mb-2">Tables and Forms</div>
+                    <ul class="space-y-2 pl-4">
+                        
+                        <li>
+                            <a href="#tables" class="toc-link text-sm text-gray-600 hover:text-primary">Tables</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#forms" class="toc-link text-sm text-gray-600 hover:text-primary">Forms</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#input-types" class="toc-link text-sm text-gray-600 hover:text-primary">Input Types</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="lg:w-3/4">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Introduction to HTML</h2>
+            <p class="text-gray-600 mb-6">HTML (HyperText Markup Language) is the standard markup language for documents designed to be displayed in a web browser. It defines the structure and content of web pages.</p>
+            
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">HTML Basics</h3>
+                
+                
+                <div id="introduction" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">What is HTML?</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>HTML (HyperText Markup Language) is the standard markup language used to create web pages. It provides the structure for web content by using a system of elements represented by tags.</p><p>HTML documents are made up of elements that tell the browser how to display content. These elements are represented by tags enclosed in angle brackets.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;My First HTML Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hello World!&lt;/h1&gt;
+  &lt;p&gt;This is my first web page.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><h1>Hello World!</h1><p>This is my first web page.</p></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="structure" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">HTML Document Structure</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Every HTML document follows a basic structure that includes the DOCTYPE declaration, html, head, and body elements.</p><ul><li><strong>DOCTYPE declaration</strong>: Tells the browser which version of HTML the page is using.</li><li><strong>html element</strong>: The root element that contains all other HTML elements.</li><li><strong>head element</strong>: Contains meta-information about the document like title, character encoding, and linked stylesheets.</li><li><strong>body element</strong>: Contains the visible content of the page.</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+  &lt;meta charset=&#34;UTF-8&#34;&gt;
+  &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+  &lt;title&gt;Document Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- Content goes here --&gt;
+  &lt;h1&gt;This is a heading&lt;/h1&gt;
+  &lt;p&gt;This is a paragraph.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="elements" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">HTML Elements</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>HTML elements are defined by tags, which usually come in pairs: an opening tag and a closing tag. The content is placed between these tags.</p><p>Tags use the syntax <code>&lt;tagname&gt;content&lt;/tagname&gt;</code>. Some elements (like the line break <code>&lt;br&gt;</code> or the image <code>&lt;img&gt;</code>) are self-closing and don't require a closing tag.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;h1&gt;This is a heading&lt;/h1&gt;
+&lt;p&gt;This is a &lt;strong&gt;paragraph&lt;/strong&gt; with &lt;em&gt;emphasized&lt;/em&gt; text.&lt;/p&gt;
+&lt;img src=&#34;image.jpg&#34; alt=&#34;An example image&#34;&gt;
+&lt;br&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><h1>This is a heading</h1><p>This is a <strong>paragraph</strong> with <em>emphasized</em> text.</p><p>[Image would appear here]</p></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="attributes" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">HTML Attributes</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Attributes provide additional information about HTML elements and are always specified in the opening tag. They usually come in name/value pairs like: <code>name="value"</code>.</p><p>Common attributes include:</p><ul><li><code>id</code>: Specifies a unique id for an element</li><li><code>class</code>: Specifies one or more class names for an element</li><li><code>style</code>: Specifies inline CSS style for an element</li><li><code>src</code>: Specifies the URL of a resource (like images)</li><li><code>href</code>: Specifies the URL of a link</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;a href=&#34;https://www.example.com&#34; title=&#34;Visit Example&#34; target=&#34;_blank&#34;&gt;Visit Example&lt;/a&gt;
+
+&lt;img src=&#34;image.jpg&#34; alt=&#34;Description&#34; width=&#34;300&#34; height=&#34;200&#34;&gt;
+
+&lt;p id=&#34;unique-id&#34; class=&#34;text-paragraph&#34; style=&#34;color: blue;&#34;&gt;This is a styled paragraph.&lt;/p&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><a href="https://www.example.com" title="Visit Example" target="_blank">Visit Example</a><br><br>[Image would appear here]<br><br><p style="color: blue;">This is a styled paragraph.</p></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Text Formatting</h3>
+                
+                
+                <div id="headings" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Headings</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>HTML offers six levels of headings, from <code>&lt;h1&gt;</code> (the most important) to <code>&lt;h6&gt;</code> (the least important). Headings are used to structure your page content and improve SEO.</p><p>Each heading creates a section in the document outline, which is used by browsers and screen readers to understand the page structure.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;h1&gt;This is a Heading 1&lt;/h1&gt;
+&lt;h2&gt;This is a Heading 2&lt;/h2&gt;
+&lt;h3&gt;This is a Heading 3&lt;/h3&gt;
+&lt;h4&gt;This is a Heading 4&lt;/h4&gt;
+&lt;h5&gt;This is a Heading 5&lt;/h5&gt;
+&lt;h6&gt;This is a Heading 6&lt;/h6&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><h1>This is a Heading 1</h1><h2>This is a Heading 2</h2><h3>This is a Heading 3</h3><h4>This is a Heading 4</h4><h5>This is a Heading 5</h5><h6>This is a Heading 6</h6></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="paragraphs" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Paragraphs and Text</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Paragraphs are defined with the <code>&lt;p&gt;</code> tag. Browsers automatically add some margin before and after each paragraph.</p><p>For text formatting, HTML provides several elements:</p><ul><li><code>&lt;strong&gt;</code> - Important text (bold)</li><li><code>&lt;em&gt;</code> - Emphasized text (italic)</li><li><code>&lt;mark&gt;</code> - Highlighted text</li><li><code>&lt;del&gt;</code> - Deleted text (strikethrough)</li><li><code>&lt;ins&gt;</code> - Inserted text (underlined)</li><li><code>&lt;sub&gt;</code> - Subscript text</li><li><code>&lt;sup&gt;</code> - Superscript text</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;p&gt;This is a paragraph with &lt;strong&gt;bold text&lt;/strong&gt; and &lt;em&gt;italic text&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can also use &lt;mark&gt;highlighted text&lt;/mark&gt; or show &lt;del&gt;deleted text&lt;/del&gt; and &lt;ins&gt;inserted text&lt;/ins&gt;.&lt;/p&gt;
+
+&lt;p&gt;Text can be &lt;sub&gt;subscript&lt;/sub&gt; or &lt;sup&gt;superscript&lt;/sup&gt; too.&lt;/p&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><p>This is a paragraph with <strong>bold text</strong> and <em>italic text</em>.</p><p>You can also use <mark>highlighted text</mark> or show <del>deleted text</del> and <ins>inserted text</ins>.</p><p>Text can be <sub>subscript</sub> or <sup>superscript</sup> too.</p></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="lists" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Lists</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>HTML provides three types of lists:</p><ul><li><strong>Unordered lists</strong> <code>&lt;ul&gt;</code> - A list of items with bullet points</li><li><strong>Ordered lists</strong> <code>&lt;ol&gt;</code> - A numbered list of items</li><li><strong>Description lists</strong> <code>&lt;dl&gt;</code> - A list of terms and their descriptions</li></ul><p>List items in unordered and ordered lists are defined with the <code>&lt;li&gt;</code> tag. For description lists, terms are defined with <code>&lt;dt&gt;</code> and descriptions with <code>&lt;dd&gt;</code>.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;h3&gt;Unordered List&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Item 1&lt;/li&gt;
+  &lt;li&gt;Item 2&lt;/li&gt;
+  &lt;li&gt;Item 3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Ordered List&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;First item&lt;/li&gt;
+  &lt;li&gt;Second item&lt;/li&gt;
+  &lt;li&gt;Third item&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;Description List&lt;/h3&gt;
+&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;HyperText Markup Language&lt;/dd&gt;
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Cascading Style Sheets&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><h3>Unordered List</h3><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><h3>Ordered List</h3><ol><li>First item</li><li>Second item</li><li>Third item</li></ol><h3>Description List</h3><dl><dt>HTML</dt><dd>HyperText Markup Language</dd><dt>CSS</dt><dd>Cascading Style Sheets</dd></dl></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Links and Images</h3>
+                
+                
+                <div id="links" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Links</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Links are created with the <code>&lt;a&gt;</code> (anchor) element. The <code>href</code> attribute specifies the destination URL.</p><p>Links can point to:</p><ul><li>External pages (using complete URLs)</li><li>Pages within the same website (using relative URLs)</li><li>Specific sections within a page (using fragment identifiers or IDs)</li><li>Email addresses (using mailto: URLs)</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;!-- External link --&gt;
+&lt;a href=&#34;https://www.example.com&#34;&gt;Visit Example Website&lt;/a&gt;
+
+&lt;!-- Internal link --&gt;
+&lt;a href=&#34;about.html&#34;&gt;About Us&lt;/a&gt;
+
+&lt;!-- Link to a section on the same page --&gt;
+&lt;a href=&#34;#section-id&#34;&gt;Jump to Section&lt;/a&gt;
+
+&lt;!-- Email link --&gt;
+&lt;a href=&#34;mailto:info@example.com&#34;&gt;Send Email&lt;/a&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><a href="https://www.example.com">Visit Example Website</a><br><br><a href="about.html">About Us</a><br><br><a href="#section-id">Jump to Section</a><br><br><a href="mailto:info@example.com">Send Email</a></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="images" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Images</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Images are added to HTML pages using the <code>&lt;img&gt;</code> element. This is a self-closing tag that requires two main attributes:</p><ul><li><code>src</code>: the source URL of the image</li><li><code>alt</code>: alternative text description of the image (for accessibility and SEO)</li></ul><p>You can also use other attributes like <code>width</code>, <code>height</code>, and <code>title</code> to further control how the image appears.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;img src=&#34;example-image.jpg&#34; alt=&#34;Description of the image&#34; width=&#34;300&#34; height=&#34;200&#34;&gt;
+
+&lt;!-- Image with title (shows as tooltip) --&gt;
+&lt;img src=&#34;example-image.jpg&#34; alt=&#34;Description of the image&#34; title=&#34;Image title on hover&#34;&gt;
+
+&lt;!-- Linked image --&gt;
+&lt;a href=&#34;page.html&#34;&gt;
+  &lt;img src=&#34;thumbnail.jpg&#34; alt=&#34;Click to visit page&#34;&gt;
+&lt;/a&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'>[Image: Description of the image]<br><br>[Image with title: Description of the image]<br><br><a href="page.html">[Image: Click to visit page]</a></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="paths" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">File Paths</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>File paths are used to specify the location of files in HTML elements like links and images. Understanding file paths is crucial for correctly referencing resources.</p><p>There are different types of file paths:</p><ul><li><strong>Absolute paths</strong>: Full URLs including the domain name (e.g., https://www.example.com/images/photo.jpg)</li><li><strong>Relative paths</strong>: Paths relative to the current HTML file</li><li><strong>Root-relative paths</strong>: Paths relative to the website's root directory (starting with /)</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;!-- Absolute path --&gt;
+&lt;img src=&#34;https://www.example.com/images/photo.jpg&#34; alt=&#34;Photo&#34;&gt;
+
+&lt;!-- Relative path - same folder --&gt;
+&lt;img src=&#34;image.jpg&#34; alt=&#34;Image in same folder&#34;&gt;
+
+&lt;!-- Relative path - subfolder --&gt;
+&lt;img src=&#34;images/photo.jpg&#34; alt=&#34;Image in subfolder&#34;&gt;
+
+&lt;!-- Relative path - up one level --&gt;
+&lt;img src=&#34;../images/photo.jpg&#34; alt=&#34;Image up one directory&#34;&gt;
+
+&lt;!-- Root-relative path --&gt;
+&lt;img src=&#34;/images/logo.png&#34; alt=&#34;Logo from root directory&#34;&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'>[Absolute path example]<br><br>[Image in same folder]<br><br>[Image in subfolder]<br><br>[Image up one directory]<br><br>[Logo from root directory]</div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Semantic HTML</h3>
+                
+                
+                <div id="semantic-elements" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Semantic Elements</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>Semantic HTML elements clearly describe their meaning to both the browser and the developer. They provide information about the content they contain, rather than just defining appearance.</p><p>Using semantic elements improves:</p><ul><li>Accessibility for screen readers and assistive technologies</li><li>SEO by helping search engines understand page content</li><li>Code readability and maintenance</li></ul><p>Some important semantic elements introduced in HTML5 include: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code>, and <code>&lt;footer&gt;</code>.</p>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;header&gt;
+  &lt;h1&gt;Website Title&lt;/h1&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&#34;#&#34;&gt;Home&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&#34;#&#34;&gt;About&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&#34;#&#34;&gt;Contact&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;section&gt;
+    &lt;h2&gt;Section Title&lt;/h2&gt;
+    &lt;p&gt;This is a section of content.&lt;/p&gt;
+  &lt;/section&gt;
+  
+  &lt;article&gt;
+    &lt;h2&gt;Article Title&lt;/h2&gt;
+    &lt;p&gt;This is a self-contained piece of content.&lt;/p&gt;
+  &lt;/article&gt;
+  
+  &lt;aside&gt;
+    &lt;h3&gt;Related Information&lt;/h3&gt;
+    &lt;p&gt;Sidebar content related to the main content.&lt;/p&gt;
+  &lt;/aside&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;
+  &lt;p&gt;&amp;copy; 2025 Example Website&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+                <div id="page-structure" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Page Structure</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>A well-structured HTML page uses semantic elements to organize content in a logical and accessible way. Here's how you might structure a typical web page:</p><ul><li><strong>Header</strong>: Contains the site logo, main navigation, and sometimes a search bar</li><li><strong>Main</strong>: The primary content area of the page</li><li><strong>Sections/Articles</strong>: Distinct content areas within the main content</li><li><strong>Aside</strong>: Supplementary content like sidebars</li><li><strong>Footer</strong>: Contains copyright information, links to important pages, and contact details</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+  &lt;meta charset=&#34;UTF-8&#34;&gt;
+  &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;
+  &lt;title&gt;Semantic Web Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;Website Name&lt;/h1&gt;
+    &lt;nav&gt;
+      &lt;!-- Navigation menu --&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+  
+  &lt;main&gt;
+    &lt;section&gt;
+      &lt;h2&gt;Welcome Section&lt;/h2&gt;
+      &lt;p&gt;Introduction to the website.&lt;/p&gt;
+    &lt;/section&gt;
+    
+    &lt;article&gt;
+      &lt;h2&gt;Latest Article&lt;/h2&gt;
+      &lt;p&gt;Article content here.&lt;/p&gt;
+    &lt;/article&gt;
+    
+    &lt;aside&gt;
+      &lt;h3&gt;Related Links&lt;/h3&gt;
+      &lt;!-- Sidebar content --&gt;
+    &lt;/aside&gt;
+  &lt;/main&gt;
+  
+  &lt;footer&gt;
+    &lt;p&gt;&amp;copy; 2025 Website Name&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">Tables and Forms</h3>
+                
+                
+                <div id="tables" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Tables</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>HTML tables are used to arrange data in rows and columns. They're created using the following elements:</p><ul><li><code>&lt;table&gt;</code>: Defines a table</li><li><code>&lt;tr&gt;</code>: Defines a table row</li><li><code>&lt;th&gt;</code>: Defines a table header cell</li><li><code>&lt;td&gt;</code>: Defines a standard table cell</li></ul><p>Tables can also include semantic elements like:</p><ul><li><code>&lt;caption&gt;</code>: A title for the table</li><li><code>&lt;thead&gt;</code>: Groups header content</li><li><code>&lt;tbody&gt;</code>: Groups body content</li><li><code>&lt;tfoot&gt;</code>: Groups footer content</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;table&gt;
+  &lt;caption&gt;Monthly Savings&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Month&lt;/th&gt;
+      &lt;th&gt;Savings&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;January&lt;/td&gt;
+      &lt;td&gt;$100&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;February&lt;/td&gt;
+      &lt;td&gt;$80&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Total&lt;/td&gt;
+      &lt;td&gt;$180&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><table border='1' style='border-collapse: collapse; width: 100%;'><caption>Monthly Savings</caption><thead><tr><th style='padding: 8px; text-align: left;'>Month</th><th style='padding: 8px; text-align: left;'>Savings</th></tr></thead><tbody><tr><td style='padding: 8px;'>January</td><td style='padding: 8px;'>$100</td></tr><tr><td style='padding: 8px;'>February</td><td style='padding: 8px;'>$80</td></tr></tbody><tfoot><tr><td style='padding: 8px;'>Total</td><td style='padding: 8px;'>$180</td></tr></tfoot></table></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="forms" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Forms</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>HTML forms are used to collect user input. They can contain various input elements like text fields, checkboxes, radio buttons, submit buttons, and more.</p><p>The main elements used in forms include:</p><ul><li><code>&lt;form&gt;</code>: Container for the form</li><li><code>&lt;input&gt;</code>: Input field with many types (text, password, checkbox, radio, etc.)</li><li><code>&lt;textarea&gt;</code>: Multi-line text input</li><li><code>&lt;select&gt;</code> and <code>&lt;option&gt;</code>: Dropdown lists</li><li><code>&lt;button&gt;</code>: Clickable button</li><li><code>&lt;label&gt;</code>: Label for form elements (improves accessibility)</li><li><code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code>: Groups related form elements</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;form action=&#34;/submit-form&#34; method=&#34;post&#34;&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;Personal Information&lt;/legend&gt;
+    
+    &lt;div&gt;
+      &lt;label for=&#34;name&#34;&gt;Name:&lt;/label&gt;
+      &lt;input type=&#34;text&#34; id=&#34;name&#34; name=&#34;name&#34; required&gt;
+    &lt;/div&gt;
+    
+    &lt;div&gt;
+      &lt;label for=&#34;email&#34;&gt;Email:&lt;/label&gt;
+      &lt;input type=&#34;email&#34; id=&#34;email&#34; name=&#34;email&#34; required&gt;
+    &lt;/div&gt;
+    
+    &lt;div&gt;
+      &lt;label for=&#34;password&#34;&gt;Password:&lt;/label&gt;
+      &lt;input type=&#34;password&#34; id=&#34;password&#34; name=&#34;password&#34; required&gt;
+    &lt;/div&gt;
+  &lt;/fieldset&gt;
+  
+  &lt;fieldset&gt;
+    &lt;legend&gt;Preferences&lt;/legend&gt;
+    
+    &lt;div&gt;
+      &lt;label for=&#34;country&#34;&gt;Country:&lt;/label&gt;
+      &lt;select id=&#34;country&#34; name=&#34;country&#34;&gt;
+        &lt;option value=&#34;usa&#34;&gt;United States&lt;/option&gt;
+        &lt;option value=&#34;canada&#34;&gt;Canada&lt;/option&gt;
+        &lt;option value=&#34;uk&#34;&gt;United Kingdom&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    
+    &lt;div&gt;
+      &lt;p&gt;Favorite Color:&lt;/p&gt;
+      &lt;input type=&#34;radio&#34; id=&#34;red&#34; name=&#34;color&#34; value=&#34;red&#34;&gt;
+      &lt;label for=&#34;red&#34;&gt;Red&lt;/label&gt;&lt;br&gt;
+      
+      &lt;input type=&#34;radio&#34; id=&#34;blue&#34; name=&#34;color&#34; value=&#34;blue&#34;&gt;
+      &lt;label for=&#34;blue&#34;&gt;Blue&lt;/label&gt;&lt;br&gt;
+      
+      &lt;input type=&#34;radio&#34; id=&#34;green&#34; name=&#34;color&#34; value=&#34;green&#34;&gt;
+      &lt;label for=&#34;green&#34;&gt;Green&lt;/label&gt;
+    &lt;/div&gt;
+    
+    &lt;div&gt;
+      &lt;p&gt;Interests:&lt;/p&gt;
+      &lt;input type=&#34;checkbox&#34; id=&#34;coding&#34; name=&#34;interests&#34; value=&#34;coding&#34;&gt;
+      &lt;label for=&#34;coding&#34;&gt;Coding&lt;/label&gt;&lt;br&gt;
+      
+      &lt;input type=&#34;checkbox&#34; id=&#34;design&#34; name=&#34;interests&#34; value=&#34;design&#34;&gt;
+      &lt;label for=&#34;design&#34;&gt;Design&lt;/label&gt;&lt;br&gt;
+      
+      &lt;input type=&#34;checkbox&#34; id=&#34;music&#34; name=&#34;interests&#34; value=&#34;music&#34;&gt;
+      &lt;label for=&#34;music&#34;&gt;Music&lt;/label&gt;
+    &lt;/div&gt;
+    
+    &lt;div&gt;
+      &lt;label for=&#34;message&#34;&gt;Message:&lt;/label&gt;&lt;br&gt;
+      &lt;textarea id=&#34;message&#34; name=&#34;message&#34; rows=&#34;4&#34; cols=&#34;40&#34;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+  &lt;/fieldset&gt;
+  
+  &lt;button type=&#34;submit&#34;&gt;Submit&lt;/button&gt;
+  &lt;button type=&#34;reset&#34;&gt;Reset&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><form action="/submit-form" method="post" style='max-width: 400px;'><fieldset><legend>Personal Information</legend><div style='margin-bottom: 10px;'><label for="name">Name:</label><br><input type="text" id="name" name="name" required></div><div style='margin-bottom: 10px;'><label for="email">Email:</label><br><input type="email" id="email" name="email" required></div><div style='margin-bottom: 10px;'><label for="password">Password:</label><br><input type="password" id="password" name="password" required></div></fieldset><fieldset><legend>Preferences</legend><div style='margin-bottom: 10px;'><label for="country">Country:</label><br><select id="country" name="country"><option value="usa">United States</option><option value="canada">Canada</option><option value="uk">United Kingdom</option></select></div><div style='margin-bottom: 10px;'><p>Favorite Color:</p><input type="radio" id="red" name="color" value="red"><label for="red">Red</label><br><input type="radio" id="blue" name="color" value="blue"><label for="blue">Blue</label><br><input type="radio" id="green" name="color" value="green"><label for="green">Green</label></div><div style='margin-bottom: 10px;'><p>Interests:</p><input type="checkbox" id="coding" name="interests" value="coding"><label for="coding">Coding</label><br><input type="checkbox" id="design" name="interests" value="design"><label for="design">Design</label><br><input type="checkbox" id="music" name="interests" value="music"><label for="music">Music</label></div><div style='margin-bottom: 10px;'><label for="message">Message:</label><br><textarea id="message" name="message" rows="4" cols="40"></textarea></div></fieldset><button type="submit">Submit</button> <button type="reset">Reset</button></form></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div id="input-types" class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-800 mb-3">Input Types</h4>
+                    <div class="text-gray-600 space-y-4">
+                        <p>HTML5 introduced many new input types that provide better validation and user experience on different devices. The input type is specified with the <code>type</code> attribute of the <code>&lt;input&gt;</code> element.</p><p>Some common input types include:</p><ul><li><code>text</code>: Basic text input</li><li><code>email</code>: Email addresses (includes validation)</li><li><code>password</code>: Password field (hides characters)</li><li><code>number</code>: Numeric input with increment/decrement controls</li><li><code>date</code>: Date picker</li><li><code>checkbox</code>: Yes/no options</li><li><code>radio</code>: Multiple-choice option (only one selectable)</li><li><code>file</code>: File upload</li><li><code>color</code>: Color picker</li><li><code>range</code>: Range slider</li></ul>
+                    </div>
+                    
+                    
+                    <div class="mt-4 mb-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Example</div>
+                        <pre class="language-html rounded-b-md mt-0"><code>&lt;form&gt;
+                        &lt;div&gt;
+                            &lt;label for=&#34;username&#34;&gt;Username:&lt;/label&gt;
+                            &lt;input type=&#34;text&#34; id=&#34;username&#34; name=&#34;username&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div&gt;
+                            &lt;label for=&#34;user-email&#34;&gt;Email:&lt;/label&gt;
+                            &lt;input type=&#34;email&#34; id=&#34;user-email&#34; name=&#34;email&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div&gt;
+                            &lt;label for=&#34;user-password&#34;&gt;Password:&lt;/label&gt;
+                            &lt;input type=&#34;password&#34; id=&#34;user-password&#34; name=&#34;password&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div&gt;
+                            &lt;label for=&#34;age&#34;&gt;Age:&lt;/label&gt;
+                            &lt;input type=&#34;number&#34; id=&#34;age&#34; name=&#34;age&#34; min=&#34;1&#34; max=&#34;120&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div&gt;
+                            &lt;label for=&#34;birthday&#34;&gt;Birthday:&lt;/label&gt;
+                            &lt;input type=&#34;date&#34; id=&#34;birthday&#34; name=&#34;birthday&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div&gt;
+                            &lt;label for=&#34;favorite-color&#34;&gt;Favorite Color:&lt;/label&gt;
+                            &lt;input type=&#34;color&#34; id=&#34;favorite-color&#34; name=&#34;color&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div&gt;
+                            &lt;label for=&#34;volume&#34;&gt;Volume (0-100):&lt;/label&gt;
+                            &lt;input type=&#34;range&#34; id=&#34;volume&#34; name=&#34;volume&#34; min=&#34;0&#34; max=&#34;100&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div&gt;
+                            &lt;label for=&#34;website&#34;&gt;Website:&lt;/label&gt;
+                            &lt;input type=&#34;url&#34; id=&#34;website&#34; name=&#34;website&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div&gt;
+                            &lt;label for=&#34;search&#34;&gt;Search:&lt;/label&gt;
+                            &lt;input type=&#34;search&#34; id=&#34;search&#34; name=&#34;search&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div&gt;
+                            &lt;label for=&#34;profile-pic&#34;&gt;Profile Picture:&lt;/label&gt;
+                            &lt;input type=&#34;file&#34; id=&#34;profile-pic&#34; name=&#34;profile-pic&#34; accept=&#34;image/*&#34;&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;button type=&#34;submit&#34;&gt;Submit&lt;/button&gt;
+                        &lt;/form&gt;</code></pre>
+                    </div>
+                    
+                    
+                    
+                    <div class="mt-4">
+                        <div class="bg-gray-100 rounded-t-md p-2 border border-gray-300 text-sm font-medium">Result</div>
+                        <div class="border border-gray-300 border-t-0 rounded-b-md p-4 bg-white">
+                            <div style='border: 1px solid #ddd; padding: 10px;'><form style='max-width: 400px;'><div style='margin-bottom: 10px;'><label for="username">Username:</label><br><input type="text" id="username" name="username"></div><div style='margin-bottom: 10px;'><label for="user-email">Email:</label><br><input type="email" id="user-email" name="email"></div><div style='margin-bottom: 10px;'><label for="user-password">Password:</label><br><input type="password" id="user-password" name="password"></div><div style='margin-bottom: 10px;'><label for="age">Age:</label><br><input type="number" id="age" name="age" min="1" max="120"></div><div style='margin-bottom: 10px;'><label for="birthday">Birthday:</label><br><input type="date" id="birthday" name="birthday"></div><div style='margin-bottom: 10px;'><label for="favorite-color">Favorite Color:</label><br><input type="color" id="favorite-color" name="color"></div><div style='margin-bottom: 10px;'><label for="volume">Volume (0-100):</label><br><input type="range" id="volume" name="volume" min="0" max="100"></div><div style='margin-bottom: 10px;'><label for="website">Website:</label><br><input type="url" id="website" name="website"></div><div style='margin-bottom: 10px;'><label for="search">Search:</label><br><input type="search" id="search" name="search"></div><div style='margin-bottom: 10px;'><label for="profile-pic">Profile Picture:</label><br><input type="file" id="profile-pic" name="profile-pic" accept="image/*"></div><button type="submit">Submit</button></form></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex justify-between">
+                    <div>
+                        <a href="/" class="inline-flex items-center text-primary hover:underline">
+                            <div class="w-5 h-5 mr-1 flex items-center justify-center">
+                                <i class="ri-arrow-left-line"></i>
+                            </div>
+                            <span>Back to Home</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/css" class="inline-flex items-center text-primary hover:underline">
+                            <span>Next: CSS Notes</span>
+                            <div class="w-5 h-5 ml-1 flex items-center justify-center">
+                                <i class="ri-arrow-right-line"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Resources -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 mt-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Additional HTML Resources</h3>
+            <ul class="space-y-2">
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" class="text-primary hover:underline">MDN Web Docs - HTML</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://www.w3schools.com/html/" target="_blank" class="text-primary hover:underline">W3Schools HTML Tutorial</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://htmlreference.io/" target="_blank" class="text-primary hover:underline">HTML Reference</a>
+                </li>
+                <li class="flex">
+                    <div class="w-5 h-5 mr-2 flex-shrink-0 text-primary">
+                        <i class="ri-links-line"></i>
+                    </div>
+                    <a href="https://validator.w3.org/" target="_blank" class="text-primary hover:underline">W3C Markup Validation Service</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    </main>
+    
+    <!-- Footer (copied and adapted from index.html) -->
+    <footer class="bg-white border-t border-gray-200 py-8 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                    <p class="text-gray-600 max-w-md dark:text-gray-300">Helping beginners learn programming with clear, concise notes and examples.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Languages</h2>
+                        <ul class="space-y-2">
+                            <li><a href="HTML_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">HTML</a></li>
+                            <li><a href="CSS_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">CSS</a></li>
+                            <li><a href="JavaScript_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">JavaScript</a></li>
+                            <li><a href="Java_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Java</a></li>
+                            <li><a href="Python_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Python</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Resources</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Tutorials</a></li>
+                            <li><a href="Search_Webpage.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Search</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Links</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">About Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Contact</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-darkborder">
+                <p class="text-gray-500 text-center dark:text-gray-400">&copy; 2025 CodeNotes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="/static/js/prism.js"></script>
+    <script src="/static/js/main.js"></script>
+    
+<script>
+    // Table of Contents highlight and smooth scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        // Highlight active TOC item based on scroll position
+        const sections = document.querySelectorAll('[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        
+        function highlightToc() {
+            let scrollPosition = window.scrollY;
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                if(scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if(link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+        window.addEventListener('scroll', highlightToc);
+
+        // Smooth scroll for TOC links
+        tocLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+
+    // Dark mode toggle functionality and mobile menu
+    document.addEventListener('DOMContentLoaded', function() {
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark');
+            if (darkModeToggle) darkModeToggle.checked = true;
+        }
+
+        // Toggle dark mode
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        }
+
+        // Mobile menu toggle
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

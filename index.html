@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - CodeNotes - Learn to Code with Beginner-Friendly Programming Notes</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0033A0',
+                        secondary: '#FFD100',
+                        codeblue: '#1E40AF',
+                        codepurple: '#7E22CE',
+                        codegreen: '#166534',
+                        darkbg: '#1a1a2e',
+                        darkcard: '#16213e',
+                        darkborder: '#2c3e50'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="/static/css/prism.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #0033A0;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Dark mode styles */
+        body.dark {
+            background-color: #1a1a2e;
+            color: #f0f0f0;
+        }
+        body.dark .bg-white {
+            background-color: #16213e;
+        }
+        body.dark .bg-gray-50 {
+            background-color: #1a1a2e;
+        }
+        body.dark .text-gray-800 {
+            color: #f0f0f0;
+        }
+        body.dark .text-gray-700 {
+            color: #e0e0e0;
+        }
+        body.dark .text-gray-600 {
+            color: #d0d0d0;
+        }
+        body.dark .border-gray-200 {
+            border-color: #2c3e50;
+        }
+        body.dark .hover\:bg-gray-100:hover {
+            background-color: #2c3e50;
+        }
+        body.dark .bg-primary {
+            background-color: #0033A0;
+        }
+        body.dark .bg-secondary {
+            background-color: #FFD100;
+        }
+        body.dark .border-l-red-500 {
+            border-left-color: #ef4444;
+        }
+        body.dark .border-l-blue-500 {
+            border-left-color: #3b82f6;
+        }
+        body.dark .border-l-yellow-500 {
+            border-left-color: #eab308;
+        }
+        body.dark .border-l-blue-600 {
+            border-left-color: #2563eb;
+        }
+        body.dark .border-l-green-600 {
+            border-left-color: #16a34a;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Top Navigation -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="images/Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="HTML_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <form id="search-form-header" action="Search_Webpage.html" method="get" class="hidden md:block">
+                        <input type="text" name="q" placeholder="Search notes..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2 dark:text-gray-400">Dark mode</span>
+                    <label class="custom-switch">
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full p-2 dark:text-gray-300 dark:hover:bg-darkborder">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-menu-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-darkborder dark:bg-darkcard">
+            <div class="px-4 py-2 space-y-2">
+                <a href="HTML_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">HTML</a>
+                <a href="CSS_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">CSS</a>
+                <a href="JavaScript_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">JavaScript</a>
+                <a href="Java_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Java</a>
+                <a href="Python_Notes.html" class="block py-2 text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary">Python</a>
+                <form action="/search" method="get" class="mt-3">
+                    <input type="text" name="q" placeholder="Search notes..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-darkcard dark:border-darkborder dark:text-white">
+                    <div class="absolute left-7 top-[6.5rem] transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                        <i class="ri-search-line"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        
+<!-- Hero Section -->
+<div class="bg-primary text-white rounded-lg overflow-hidden mb-8 dark:bg-opacity-90">
+    <div class="container mx-auto px-4 py-12 md:py-20">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Learn To Code The Right Way</h1>
+                <p class="text-xl mb-6">Simple, concise notes for beginners to master web development fundamentals</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="HTML_Notes.html" class="px-6 py-3 bg-white text-primary font-medium rounded-button hover:bg-opacity-90 transition-all">
+                        Start with HTML
+                    </a>
+                    <a href="#course-section" class="px-6 py-3 bg-transparent border-2 border-white text-white font-medium rounded-button hover:bg-white hover:bg-opacity-10 transition-all">
+                        Explore All Notes
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="images/code.jpg" alt="Programming Concept" class="max-w-full md:max-w-md h-auto rounded-lg shadow-lg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center dark:text-white">Why Choose CodeNotes?</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm dark:bg-darkcard dark:border-darkborder">
+            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4 dark:bg-blue-900 dark:bg-opacity-30">
+                <i class="ri-book-open-line text-xl text-primary dark:text-blue-400"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2 dark:text-white">Beginner Friendly</h3>
+            <p class="text-gray-600 dark:text-gray-300">Concepts explained in simple language that's easy to understand for complete beginners.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm dark:bg-darkcard dark:border-darkborder">
+            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4 dark:bg-green-900 dark:bg-opacity-30">
+                <i class="ri-code-box-line text-xl text-green-600 dark:text-green-400"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2 dark:text-white">Practical Examples</h3>
+            <p class="text-gray-600 dark:text-gray-300">Learn by doing with practical code examples that you can try yourself.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm dark:bg-darkcard dark:border-darkborder">
+            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4 dark:bg-yellow-900 dark:bg-opacity-30">
+                <i class="ri-layout-grid-line text-xl text-yellow-600 dark:text-yellow-400"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2 dark:text-white">Structured Learning</h3>
+            <p class="text-gray-600 dark:text-gray-300">Content organized in a logical order to build your knowledge step by step.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Course Section -->
+<div id="course-section" class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 dark:text-white">Start Learning Today</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- HTML Card -->
+        <div class="bg-white rounded-lg border border-l-4 border-l-red-500 border-gray-200 p-5 relative dark:bg-darkcard dark:border-darkborder">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">HTML</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">HyperText Markup Language</p>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center bg-red-100 rounded-full dark:bg-red-900 dark:bg-opacity-30">
+                    <i class="ri-html5-line text-xl text-red-500 dark:text-red-400"></i>
+                </div>
+            </div>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">The building blocks of websites. Learn how to create web pages with HTML.</p>
+            <div class="flex items-center mb-4">
+                <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded dark:bg-green-900 dark:bg-opacity-30 dark:text-green-400">Beginner Friendly</div>
+                <div class="ml-2 text-xs text-gray-500 dark:text-gray-400">Start here if you're new to coding</div>
+            </div>
+            <a href="HTML_Notes.html" class="inline-block px-4 py-2 bg-red-500 text-white rounded-button hover:bg-red-600 transition-all">Start Learning</a>
+        </div>
+        
+        <!-- CSS Card -->
+        <div class="bg-white rounded-lg border border-l-4 border-l-blue-500 border-gray-200 p-5 relative dark:bg-darkcard dark:border-darkborder">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">CSS</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Cascading Style Sheets</p>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full dark:bg-blue-900 dark:bg-opacity-30">
+                    <i class="ri-css3-line text-xl text-blue-500 dark:text-blue-400"></i>
+                </div>
+            </div>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">Make your websites beautiful. CSS helps you style and design your web pages.</p>
+            <div class="flex items-center mb-4">
+                <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded dark:bg-green-900 dark:bg-opacity-30 dark:text-green-400">Beginner Friendly</div>
+                <div class="ml-2 text-xs text-gray-500 dark:text-gray-400">Try after learning HTML basics</div>
+            </div>
+            <a href="CSS_Notes.html" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-button hover:bg-blue-600 transition-all">Start Learning</a>
+        </div>
+        
+        <!-- JavaScript Card -->
+        <div class="bg-white rounded-lg border border-l-4 border-l-yellow-500 border-gray-200 p-5 relative dark:bg-darkcard dark:border-darkborder">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">JavaScript</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Interactive Programming</p>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center bg-yellow-100 rounded-full dark:bg-yellow-900 dark:bg-opacity-30">
+                    <i class="ri-javascript-line text-xl text-yellow-500 dark:text-yellow-400"></i>
+                </div>
+            </div>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">Make websites come alive with interactivity. Create dynamic experiences for users.</p>
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded dark:bg-blue-900 dark:bg-opacity-30 dark:text-blue-400">Good Next Step</div>
+                <div class="ml-2 text-xs text-gray-500 dark:text-gray-400">Learn after HTML & CSS</div>
+            </div>
+            <a href="JavaScript_Notes.html" class="inline-block px-4 py-2 bg-yellow-500 text-white rounded-button hover:bg-yellow-600 transition-all">Start Learning</a>
+        </div>
+        
+        <!-- Java Card -->
+        <div class="bg-white rounded-lg border border-l-4 border-l-blue-600 border-gray-200 p-5 relative dark:bg-darkcard dark:border-darkborder">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Java</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Object-Oriented Programming</p>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full dark:bg-blue-900 dark:bg-opacity-30">
+                    <i class="ri-code-s-slash-line text-xl text-blue-600 dark:text-blue-400"></i>
+                </div>
+            </div>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">Popular programming language used for apps, games, and enterprise software.</p>
+            <div class="flex items-center mb-4">
+                <div class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded dark:bg-yellow-900 dark:bg-opacity-30 dark:text-yellow-400">Intermediate</div>
+                <div class="ml-2 text-xs text-gray-500 dark:text-gray-400">Great for software development</div>
+            </div>
+            <a href="Java_Notes.html" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-button hover:bg-blue-700 transition-all">Start Learning</a>
+        </div>
+        
+        <!-- Python Card -->
+        <div class="bg-white rounded-lg border border-l-4 border-l-green-600 border-gray-200 p-5 relative dark:bg-darkcard dark:border-darkborder">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Python</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Versatile Programming</p>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center bg-green-100 rounded-full dark:bg-green-900 dark:bg-opacity-30">
+                    <i class="ri-code-s-slash-line text-xl text-green-600 dark:text-green-400"></i>
+                </div>
+            </div>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">Easy-to-learn language great for beginners. Used in data science, AI, and web development.</p>
+            <div class="flex items-center mb-4">
+                <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded dark:bg-green-900 dark:bg-opacity-30 dark:text-green-400">Beginner Friendly</div>
+                <div class="ml-2 text-xs text-gray-500 dark:text-gray-400">Great first programming language</div>
+            </div>
+            <a href="Python_Notes.html" class="inline-block px-4 py-2 bg-green-600 text-white rounded-button hover:bg-green-700 transition-all">Start Learning</a>
+        </div>
+        
+        <!-- Coming Soon Card -->
+        <div class="bg-white rounded-lg border border-gray-200 p-5 relative dark:bg-darkcard dark:border-darkborder">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">More Coming Soon</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Future Topics</p>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full dark:bg-gray-700">
+                    <i class="ri-add-line text-xl text-gray-500 dark:text-gray-400"></i>
+                </div>
+            </div>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">We're constantly adding new programming languages and topics. Check back soon!</p>
+            <div class="flex items-center mb-4">
+                <div class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded dark:bg-gray-700 dark:text-gray-300">Stay Tuned</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Learning Path Section -->
+<div class="bg-white rounded-lg border border-gray-200 p-6 mb-12 dark:bg-darkcard dark:border-darkborder">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 dark:text-white">Recommended Learning Path</h2>
+    <div class="flex flex-col md:flex-row">
+        <div class="md:w-2/3 pr-0 md:pr-8">
+            <div class="mb-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold mr-4">1</div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Start with HTML Basics</h3>
+                </div>
+                <p class="text-gray-600 ml-14 dark:text-gray-300">Learn the fundamental HTML elements, document structure, and basic page formatting. Build your first web page!</p>
+            </div>
+            <div class="mb-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold mr-4">2</div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Add Styles with CSS</h3>
+                </div>
+                <p class="text-gray-600 ml-14 dark:text-gray-300">Learn how to select HTML elements and apply styles to create beautiful layouts and designs.</p>
+            </div>
+            <div class="mb-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold mr-4">3</div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Make it Interactive with JavaScript</h3>
+                </div>
+                <p class="text-gray-600 ml-14 dark:text-gray-300">Add interactivity to your pages with JavaScript. Learn about variables, functions, DOM manipulation, and events.</p>
+            </div>
+            <div>
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold mr-4">4</div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Build Projects</h3>
+                </div>
+                <p class="text-gray-600 ml-14 dark:text-gray-300">Apply what you've learned by building real projects like a personal portfolio, interactive forms, and more.</p>
+            </div>
+        </div>
+        <div class="md:w-1/3 mt-6 md:mt-0">
+            <img src="images/RedBloodCells.jpg" alt="Learning Path" class="rounded-lg shadow-lg">
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center dark:text-white">What Our Learners Say</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm dark:bg-darkcard dark:border-darkborder">
+            <div class="flex items-center mb-4">
+                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 dark:bg-blue-900 dark:bg-opacity-30">
+                    <span class="text-primary font-bold dark:text-blue-400">TP</span>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">Tebogo Pii</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Web Development Student</p>
+                </div>
+            </div>
+            <p class="text-gray-600 italic dark:text-gray-300">"The clear explanations and practical examples helped me understand HTML concepts that I struggled with for months. Highly recommended!"</p>
+            <div class="mt-4 flex text-yellow-400">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm dark:bg-darkcard dark:border-darkborder">
+            <div class="flex items-center mb-4">
+                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3 dark:bg-green-900 dark:bg-opacity-30">
+                    <span class="text-green-600 font-bold dark:text-green-400">JX</span>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">Jaytee Xaba</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Graphic Designer</p>
+                </div>
+            </div>
+            <p class="text-gray-600 italic dark:text-gray-300">"As a designer wanting to learn coding, this site made CSS approachable. The examples are perfect for visual learners like me."</p>
+            <div class="mt-4 flex text-yellow-400">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-half-fill"></i>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm dark:bg-darkcard dark:border-darkborder">
+            <div class="flex items-center mb-4">
+                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3 dark:bg-purple-900 dark:bg-opacity-30">
+                    <span class="text-purple-600 font-bold dark:text-purple-400">KG</span>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">Katleho Goodman</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Computer Science Student</p>
+                </div>
+            </div>
+            <p class="text-gray-600 italic dark:text-gray-300">"JavaScript was always intimidating to me until I found these notes. Breaking down complex concepts into digestible pieces is exactly what I needed."</p>
+            <div class="mt-4 flex text-yellow-400">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="bg-primary text-white rounded-lg p-8 text-center mb-12 dark:bg-opacity-90">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Ready to Start Your Coding Journey?</h2>
+    <p class="text-lg mb-6 max-w-2xl mx-auto">Choose a language that interests you the most and begin learning with our beginner-friendly notes and examples.</p>
+    
+    <div class="mb-6">
+        <h3 class="text-lg mb-2">Web Development</h3>
+        <div class="flex flex-wrap justify-center gap-4 mb-4">
+            <a href="HTML_Notes.html" class="px-6 py-3 bg-white text-primary font-medium rounded-button hover:bg-opacity-90 transition-all">
+                HTML
+            </a>
+            <a href="CSS_Notes.html" class="px-6 py-3 bg-secondary text-gray-800 font-medium rounded-button hover:bg-opacity-90 transition-all">
+                CSS
+            </a>
+            <a href="JavaScript_Notes.html" class="px-6 py-3 bg-yellow-400 text-gray-800 font-medium rounded-button hover:bg-opacity-90 transition-all">
+                JavaScript
+            </a>
+        </div>
+    </div>
+    
+    <div>
+        <h3 class="text-lg mb-2">Programming Languages</h3>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="Python_Notes.html" class="px-6 py-3 bg-green-500 text-white font-medium rounded-button hover:bg-opacity-90 transition-all">
+                Python
+            </a>
+            <a href="Java_Notes.html" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-button hover:bg-opacity-90 transition-all">
+                Java
+            </a>
+            <a href="#" class="px-6 py-3 bg-transparent border-2 border-white text-white font-medium rounded-button hover:bg-white hover:bg-opacity-10 transition-all cursor-default">
+                More Coming Soon
+            </a>
+        </div>
+    </div>
+    
+    <div class="mt-8 text-center">
+        <p class="text-md">Not sure where to start? <a href="#course-section" class="underline font-medium">Check our recommendations above</a></p>
+    </div>
+</div>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 dark:bg-darkcard dark:border-darkborder">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <a href="index.html">
+                        <img src="Code_Notes.svg" alt="CodeNotes Logo" class="h-24">
+                    </a>
+                    <p class="text-gray-600 max-w-md dark:text-gray-300">Helping beginners learn programming with clear, concise notes and examples.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Languages</h2>
+                        <ul class="space-y-2">
+                            <li><a href="HTML_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">HTML</a></li>
+                            <li><a href="CSS_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">CSS</a></li>
+                            <li><a href="JavaScript_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">JavaScript</a></li>
+                            <li><a href="Java_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Java</a></li>
+                            <li><a href="Python_Notes.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Python</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Resources</h2>
+                        <ul class="space-y-2">
+                            <li><a href="Index.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Tutorials</a></li>
+                            <li><a href="Search_Webpage.html" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Search</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-700 uppercase mb-4 dark:text-gray-300">Links</h2>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">About Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Contact</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-darkborder">
+                <p class="text-gray-500 text-center dark:text-gray-400">&copy; 2025 CodingNotes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="/static/js/prism.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script>
+        // Dark mode toggle functionality and mobile menu
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Check for saved user preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark');
+                darkModeToggle.checked = true;
+            }
+
+            // Toggle dark mode
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+
+            // Mobile menu toggle
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
