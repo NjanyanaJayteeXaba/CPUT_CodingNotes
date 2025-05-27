@@ -5,7 +5,7 @@
 A comprehensive, beginner-friendly coding resource for CPUT students, featuring structured notes on web development and programming fundamentals.
 
 ## Live Demo
-👉 [View Live Demo](https://njanyanajayteexaba.github.io/CPUT_CodingNotes/)
+👉 [View Live Demo](https://njanyanajayteexaba.github.io/PrototypeCPUT_CodingNotesUI_interface/)
 
 ## Features
  -  **Structured Learning Path:** Step-by-step guide from HTML basics to advanced programming
