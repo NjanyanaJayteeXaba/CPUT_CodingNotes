@@ -1,7 +1,7 @@
 # PrototypeCPUT_CodingNotesUI_interface
 
 
-<img src="https://github.com/njanyanajayteexaba/CPUT_CodingNotes/blob/main/cputcoding.png" width="300" height="auto">
+<img src="https://github.com/njanyanajayteexaba/CPUT_CodingNotes/blob/main/cputcoding.png" width="auto" height="200">
 A comprehensive, beginner-friendly coding resource for CPUT students, featuring structured notes on web development and programming fundamentals.
 
 ## Live Demo
